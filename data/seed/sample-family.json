@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "updatedAt": "2026-10-19T00:00:00.000Z",
+  "settings": {
+    "locale": "en",
+    "theme": "dark",
+    "privacyMode": true,
+    "dateFormat": "iso",
+    "treeOptions": {
+      "layout": "vertical",
+      "showSiblings": true,
+      "showPartners": true
+    }
+  },
+  "persons": [
+    {
+      "id": "p1",
+      "names": [
+        { "forename": "Astrith", "surname": "Vindottir", "type": "birth" },
+        { "forename": "Astrith", "surname": "Halgrimsdottir", "type": "married" }
+      ],
+      "sex": "female",
+      "living": false,
+      "events": [
+        { "id": "e1", "type": "birth", "date": { "year": 1848, "qualifier": "about" }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": ["s1"] },
+        { "id": "e2", "type": "death", "date": { "year": 1912 }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": [] }
+      ],
+      "occupations": ["weaver"],
+      "notes": "Demo person. All names, places and dates in this file are fictional.",
+      "tags": ["demo"],
+      "confidence": "verified",
+      "researchStatus": "partial",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "p2",
+      "names": [{ "forename": "Halgrim", "surname": "Eiriksson", "type": "birth" }],
+      "sex": "male",
+      "living": false,
+      "events": [
+        { "id": "e3", "type": "birth", "date": { "year": 1844 }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": ["s1"] },
+        { "id": "e4", "type": "death", "date": { "year": 1901, "qualifier": "before" }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": [] }
+      ],
+      "occupations": ["fisherman"],
+      "notes": "Demo person.",
+      "tags": ["demo"],
+      "confidence": "unverified",
+      "researchStatus": "open",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "p3",
+      "names": [{ "forename": "Sigrun", "surname": "Halgrimsdottir", "type": "birth" }],
+      "sex": "female",
+      "living": false,
+      "events": [
+        { "id": "e5", "type": "birth", "date": { "year": 1874 }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": ["s1"] }
+      ],
+      "notes": "Demo person.",
+      "tags": ["demo"],
+      "confidence": "verified",
+      "researchStatus": "open",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "p4",
+      "names": [{ "forename": "Eirik", "surname": "Halgrisson", "type": "birth" }],
+      "sex": "male",
+      "living": false,
+      "events": [
+        { "id": "e6", "type": "birth", "date": { "year": 1877 }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": ["s1"] },
+        { "id": "e7", "type": "migration", "date": { "year": 1899 }, "place": { "name": "Fictionalport", "country": "Fictland" }, "sourceIds": [] }
+      ],
+      "notes": "Demo person; the migration is the open research lead of this sample.",
+      "tags": ["demo", "to-verify"],
+      "confidence": "unverified",
+      "researchStatus": "open",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    }
+  ],
+  "families": [
+    {
+      "id": "f1",
+      "partnerIds": ["p2", "p1"],
+      "childIds": ["p3", "p4"],
+      "type": "marriage",
+      "start": { "id": "e8", "type": "marriage", "date": { "year": 1870, "qualifier": "between", "yearTo": 1873 }, "place": { "name": "Fictionalvik", "country": "Fictland" }, "sourceIds": ["s2"] },
+      "sourceIds": ["s2"],
+      "note": "Demo union; marriage year not yet pinned down."
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "type": "parish-register",
+      "title": "Fictional parish register, births 1840-1880 (demo)",
+      "repository": "Fictional State Archive",
+      "reference": "fond 12, opis 3, sprava 44",
+      "quality": "derivative",
+      "note": "Fictional reference; demonstrates the archival field layout.",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "s2",
+      "type": "family-record",
+      "title": "Family record book of the Halgrimsson family (demo)",
+      "quality": "transcription",
+      "note": "Fictional source.",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "t1",
+      "subjectType": "person",
+      "subjectId": "p2",
+      "question": "Who were the parents of Halgrim Eiriksson?",
+      "hypothesis": "Christening entry around 1844 in Fictionalvik parish books.",
+      "whereToLook": ["Fictional parish register 1840-1850", "Fictional State Archive index"],
+      "status": "open",
+      "priority": "high",
+      "nextAction": "Request fond 12, opis 3, sprava 40 (years 1840-1850) from the archive.",
+      "sourceIds": ["s1"],
+      "templateId": "parish-records",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "t2",
+      "subjectType": "family",
+      "subjectId": "f1",
+      "question": "In which year exactly did Halgrim and Astrith marry?",
+      "whereToLook": ["Marriage register 1870-1875"],
+      "status": "open",
+      "priority": "med",
+      "nextAction": "Check the marriage register index for 1871 and 1872.",
+      "sourceIds": ["s2"],
+      "templateId": "parish-records",
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    },
+    {
+      "id": "t3",
+      "subjectType": "person",
+      "subjectId": "p4",
+      "question": "Where did Eirik go after the 1899 move to Fictionalport?",
+      "whereToLook": ["Emigration manifests", "Fictionalport arrival lists"],
+      "status": "blocked",
+      "priority": "med",
+      "nextAction": "Find out which shipping line served Fictionalport in 1899.",
+      "sourceIds": [],
+      "createdAt": "2026-10-19T00:00:00.000Z",
+      "updatedAt": "2026-10-19T00:00:00.000Z"
+    }
+  ],
+  "notes": [
+    {
+      "id": "n1",
+      "personId": "p2",
+      "text": "Demo note: the 1848 christening entry for Astrith gives the mother's maiden name — check whether Halgrim appears as a witness.",
+      "at": "2026-10-19T00:00:00.000Z"
+    }
+  ],
+  "meta": {
+    "demo": true,
+    "warning": "FICTIONAL DATA — every name, place, date and archive reference in this file is invented for demonstration. Never commit real family data."
+  }
+}

@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Test / tooling caches
+coverage/
+.vitest/
+.biome/
+.cache/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# --- CONFIDENTIAL: real family data must never be committed ---------------
+# Keep your actual tree, vaults, scans and GEDCOM exports outside git.
+# NOTE: `data/*` (not `data/`) so the fictional seed below can be re-included —
+# git cannot re-include a file whose parent directory is ignored.
+data/*
+!data/seed/
+!data/seed/**
+vault/
+vaults/
+exports/
+*.ged
+*.gedcom
+*.gedcomx
+*.gdz
+*.zip
+*.7z
+
+# Exported documents (JSON/CSV/MD) produced by the app
+*_export.json
+*_export.csv
+*_export.md
+
+# --- Media (personal scans/photos) ---------------------------------------
+# Photos and scans of people/documents are personal data — never commit them.
+# Exceptions: the app's own icons and the fictional README screenshots.
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.heic
+*.tif
+*.tiff
+!public/icons/**
+!docs/img/**
+!data/seed/img/**
+
+# --- OS / editor ---------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
