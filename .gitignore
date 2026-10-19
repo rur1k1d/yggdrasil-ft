@@ -14,6 +14,9 @@ coverage/
 .biome/
 .cache/
 
+# PWA dev service-worker output (vite-plugin-pwa, dev mode only)
+dev-dist/
+
 # Local environment
 .env
 .env.*

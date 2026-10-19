@@ -158,6 +158,15 @@ type ResearchTask = {
   createdAt: string;
   updatedAt: string;
 };
+
+type Note = {
+  id: string;
+  personId?: string;         // loose link: person
+  familyId?: string;         // loose link: family
+  taskId?: string;           // loose link: research task
+  text: string;
+  at: string;                // ISO-8601
+};
 ```
 
 Person-level judgement (`confidence`, `researchStatus`) is deliberately separate

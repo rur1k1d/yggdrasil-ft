@@ -102,13 +102,16 @@ Full field list: `data_model.md`.
   residence, notes, tags, `confidence`, `researchStatus`.
 - `Family` — `partnerIds[]`, `childIds[]`, `type: marriage|partnership|unknown`,
   start/end dates + place, sourceIds.
-- `Source` — registry with archival fields (`repository`, `fond`, `opis`,
-  `sprava`, `folio`), `type`, URL, retrieved date, transcription note.
-- `ResearchTask` — the differentiator: `personId|familyId|null`, `question`,
-  `hypothesis`, `whereToLook`, `status: todo|active|blocked|done|dropped`,
-  `priority`, `nextAction`, `sourceIds`, `result`, `createdAt/updatedAt`.
-- `Note` — free notes, attachable to person/family/task.
-- `Settings` — locale, theme, `privacyMode`, date-format, tree options.
+- `Source` — registry: `type`, `title`, `repository`, `reference`
+  (signatura / fond-opis-sprava), `url`, `accessedAt`, `quality`,
+  `transcription`, `note`.
+- `ResearchTask` — the differentiator: `subjectType: person|family|tree` +
+  `subjectId?`, `question`, `hypothesis`, `whereToLook[]`,
+  `status: open|done|blocked|dropped`, `priority: low|med|high`,
+  `nextAction`, `sourceIds[]`, `outcome`, `templateId?`, `createdAt/updatedAt`.
+- `Note` — free notes (`text`, `at`), loose links `personId?`/`familyId?`/`taskId?`.
+- `Settings` — `locale`, `theme`, `privacyMode`, `dateFormat`, `surnameOrder`,
+  `treeDirection`, `researchTemplates[]`.
 - Envelope: `{ schema: 1, updatedAt, settings, persons, families, sources, tasks, notes }`.
 
 Invariants validated on write: no cycles in ancestry, no impossible dates,
@@ -131,11 +134,12 @@ archive query letters. Each template: title, target scope, ordered questions,
       *Verify:* files exist and are mutually consistent; `.gitignore` blocks
       `data/`, `vault/`, `*.ged`; no code yet. **DONE 2026-10-19** (see
       `goal_resume.md` → Evidence).
-- [ ] **P1 — Skeleton + offline.** Vite/Preact/TS scaffold, Biome, Vitest,
+- [x] **P1 — Skeleton + offline.** Vite/Preact/TS scaffold, Biome, Vitest,
       tokens, hash router, i18n PL/EN, store with schema+migrations+fallback,
       seed loader, JSON export/import, PWA (manifest + service worker).
       *Verify:* `biome check` clean, `tsc --noEmit` 0, `vitest` green, `build` OK,
       offline load of `dist` works (SW active), JSON round-trip test, 0 console errors.
+      **DONE 2026-10-19** (see `goal_resume.md` → Evidence).
 - [ ] **P2 — People + relations + tree.** Person CRUD, relation editor
       (parent/child/partner), SVG tree with pan/zoom + keyboard nav, search,
       validation warnings, fictional demo tree browsable.

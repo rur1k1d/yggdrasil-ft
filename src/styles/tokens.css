@@ -1,0 +1,59 @@
+/* Yggdrasil FT — design tokens (dark Norse theme).
+   Privacy rule: system font stacks only — no CDN fonts, ever. */
+
+:root {
+	color-scheme: dark;
+
+	/* Color — deep forest night */
+	--bg: #0c100e;
+	--surface: #131a16;
+	--surface-raised: #1a2320;
+	--border: #2a3531;
+	--border-strong: #3d4b45;
+
+	--ink: #e9e7de;
+	--ink-muted: #a7b0aa;
+	--ink-faint: #78837c;
+
+	--accent: #c9a24a;
+	--accent-bright: #e0bf6b;
+	--accent-deep: #8a6a1f;
+	--leaf: #56a06d;
+	--danger: #d4534b;
+	--warn: #d9a441;
+
+	--focus-ring: var(--accent-bright);
+
+	/* Type — system stacks (offline + privacy) */
+	--font-sans:
+		system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+		sans-serif;
+	--font-mono:
+		ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+	--text-sm: 0.875rem;
+	--text-md: 1rem;
+	--text-lg: 1.25rem;
+	--text-xl: 1.75rem;
+	--text-2xl: 2.25rem;
+
+	/* Space */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 3rem;
+
+	/* Radius / elevation */
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 14px;
+	--shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+	--shadow-2: 0 6px 24px rgb(0 0 0 / 45%);
+
+	/* Motion */
+	--dur-fast: 120ms;
+	--dur-med: 240ms;
+	--ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

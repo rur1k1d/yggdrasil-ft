@@ -3,7 +3,7 @@
 > Offline-first **family-tree web app** with a research TODO board.
 > Repo target: **`rur1k1d/yggdrasil-ft`** (MIT). Local-only data — no server, no accounts.
 > Docs in English; app UI PL+EN. Reuses the Planner store/templates patterns.
-> **Status: P0 done (docs). No code yet — resume at P1.**
+> **Status: P0+P1 done (docs + skeleton). Resume at P2.**
 
 ## Goal (one sentence)
 
@@ -76,12 +76,24 @@ projects/Yggdrasil_Project/
       re-include files under an ignored parent directory). Enums cross-checked
       across docs (`Sex`, `FamilyType`, `TaskStatus`, `TaskPriority`,
       `PersonConfidence`, `PersonResearch` are used by the entities).
-- [ ] **P1** Skeleton + offline: Vite/Preact/TS + Biome + Vitest, tokens, hash
+- [x] **P1** Skeleton + offline: Vite/Preact/TS + Biome + Vitest, tokens, hash
       router, i18n PL/EN, store (`yggdrasil_ft_v1`, schema+migrate+safeParse+
       fallback), seed loader, JSON export/import, PWA (manifest + SW).
       *Verify:* `biome check` clean · `tsc --noEmit` 0 · Vitest green ·
       `build` OK · **offline load of `dist`** OK · JSON round-trip test ·
       0 console errors.
+      Evidence (2026-10-19): `npx biome check .` = 24 files, 0 errors, exit 0 ·
+      `npx tsc --noEmit` exit 0 · `npx vitest run` = 3 files, **22/22** (store 14
+      · JSON round-trip 6 · i18n parity 2) · `npm run build` exit 0 (PWA
+      `generateSW`, **9 unique precache entries**, no duplicates) · CDP probe
+      (`npm run probe` → `scripts/pwa-probe.mjs`, headless Chromium, server
+      **killed mid-run**) = **PROBE PASS**: online + offline boots with SW
+      control both true, `consoleErrors []`, `exceptions []`,
+      `externalRequests []`, all traffic `127.0.0.1:4173` · static scan of
+      `src/` + `index.html` = zero external URLs. Key files: `src/model/*`,
+      `src/store/{store,seed}.ts`, `src/io/json.ts`, `src/{app.tsx,router.ts}`,
+      `src/i18n/*`, `src/styles/*`, `public/icons/*`, `vite.config.ts`,
+      `scripts/pwa-probe.mjs`, `tests/{store,json,i18n}.test.ts`.
 - [ ] **P2 — People + relations + tree.** Person CRUD, relation editor
       (parent/child/partner), SVG tree (pan/zoom, keyboard), search, validation
       warnings (cycles, impossible dates, duplicates).
@@ -126,11 +138,10 @@ serve `dist` (preview) and load with network disabled (offline gate) ·
 
 ## Next action
 
-**P1 — scaffold.** `npm create vite` (preact-ts) in `projects/Yggdrasil_Project/`,
-add Biome + Vitest + `vite-plugin-pwa`, tokens (dark "Norse" theme), hash router,
-i18n PL/EN, store (`yggdrasil_ft_v1` + migrations + safeParse + subscribe +
-in-memory fallback), fictional seed loader, JSON export/import, then run the P1
-gates and record Evidence here.
+**P2 — People + relations + tree.** Person CRUD, relation editor
+(parent/child/partner), SVG tree with pan/zoom + keyboard nav, search,
+validation warnings (ancestry cycles, impossible dates, duplicates), fictional
+demo tree browsable. Run the phase gates on the new views and append Evidence.
 
 ## Log
 
@@ -146,3 +157,15 @@ gates and record Evidence here.
   data blocked, fictional seed + app icons + docs images allowed). Also added in
   this pass: `CONTRIBUTING.md`, `SECURITY.md`, `data/seed/sample-family.json`.
   **Paused on commander's request — resume at P1 when we come back to it.**
+- 2026-10-19 — **P1 done (skeleton + offline).** Scaffolded Vite 7.3.7 + Preact
+  10.29.8 + TS strict + Biome + Vitest (versions locked per plan); app shell
+  (hash router, dark Norse tokens, i18n PL/EN with type-enforced key parity and
+  zero hardcoded UI strings); store `yggdrasil_ft_v1` (schema/migrate/
+  safeParse/subscribe, seed on first run, corrupt → in-memory empty with raw
+  preserved, quota/no-storage fallbacks) + seed loader; JSON export/import with
+  round-trip test; PWA via `vite-plugin-pwa` `generateSW` (9-entry precache,
+  PIL-generated icons + favicon, installable manifest). Added
+  `scripts/pwa-probe.mjs` — zero-dependency CDP probe (Node 24 global
+  WebSocket) that kills the preview server mid-run and proves offline boot
+  under SW control with 0 console errors and 0 external requests. All gates
+  green — see Evidence above. Next: **P2 (people + relations + tree)**.

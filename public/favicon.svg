@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Yggdrasil FT</title>
+  <rect width="512" height="512" fill="#0c100e"/>
+  <g stroke="#c9a24a" stroke-width="30" stroke-linecap="round" fill="none">
+    <path d="M256 400V240"/>
+    <path d="M256 310L165 175"/>
+    <path d="M256 310L347 175"/>
+    <path d="M256 400L185 455"/>
+    <path d="M256 400L327 455"/>
+  </g>
+  <circle cx="256" cy="300" r="46" fill="none" stroke="#c9a24a" stroke-width="10"/>
+</svg>
