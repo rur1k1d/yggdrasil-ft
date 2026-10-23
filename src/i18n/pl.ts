@@ -31,6 +31,7 @@ export const pl = {
 	"views.tree.relations": "Relacje",
 	"views.tree.addRelation": "Dodaj relację",
 	"views.tree.noPersons": "Brak osób. Dodaj pierwszą osobę.",
+	"views.tree.noResults": "Brak osób pasujących do wyszukiwania.",
 	"views.tree.selectPerson": "Wybierz osobę lub utwórz nową.",
 	"views.tree.warnings": "Ostrzeżenia walidacji",
 	"views.tree.noWarnings": "Brak ostrzeżeń.",
@@ -80,6 +81,8 @@ export const pl = {
 	"research.cancel": "Anuluj",
 	"research.delete": "Usuń",
 	"research.exportMd": "Eksportuj Markdown",
+	"research.empty":
+		"Brak zadań badawczych. Zastosuj szablon, aby dodać listę pytań.",
 	"research.stats": "Postęp",
 	"research.total": "Razem",
 	"research.open": "Otwarte",
@@ -97,6 +100,8 @@ export const pl = {
 	"subject.tree": "Drzewo",
 
 	"sources.new": "Nowe źródło",
+	"sources.empty":
+		"Brak źródeł. Dodaj archiwum, książkę lub stronę, z których korzystasz.",
 	"sources.title": "Tytuł",
 	"sources.type": "Typ",
 	"sources.repository": "Repozytorium",
@@ -122,6 +127,9 @@ export const pl = {
 	"settings.io.exportGedcom": "Eksportuj GEDCOM",
 	"settings.io.importJson": "Importuj JSON",
 	"settings.io.importGedcom": "Importuj GEDCOM",
+	"settings.io.empty":
+		"Drzewo jest puste. Zacznij w drzewie lub zaimportuj kopię zapasową.",
+	"settings.io.emptyCta": "Przejdź do drzewa",
 	"settings.io.okExport": "Zapisano plik: {file}",
 	"settings.io.okImport":
 		"Import zakończony: {persons} osób, {families} rodzin, {sources} źródeł.",

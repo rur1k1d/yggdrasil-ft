@@ -56,7 +56,11 @@ export function TreeView() {
 			)}
 			<div class="tree-layout">
 				<aside class="tree-list">
-					{persons.length === 0 && <p>{t("views.tree.noPersons")}</p>}
+					{persons.length === 0 && (
+						<p class="empty-state">
+							{search ? t("views.tree.noResults") : t("views.tree.noPersons")}
+						</p>
+					)}
 					<ul>
 						{persons.map((p) => (
 							<li key={p.id}>

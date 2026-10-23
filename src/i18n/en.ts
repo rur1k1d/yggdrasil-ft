@@ -31,6 +31,7 @@ export const en = {
 	"views.tree.relations": "Relations",
 	"views.tree.addRelation": "Add relation",
 	"views.tree.noPersons": "No persons yet. Create one to start.",
+	"views.tree.noResults": "No persons match your search.",
 	"views.tree.selectPerson": "Select a person or create a new one.",
 	"views.tree.warnings": "Validation warnings",
 	"views.tree.noWarnings": "No warnings.",
@@ -79,6 +80,8 @@ export const en = {
 	"research.cancel": "Cancel",
 	"research.delete": "Delete",
 	"research.exportMd": "Export markdown",
+	"research.empty":
+		"No research tasks yet. Apply a template to add a checked list of questions.",
 	"research.stats": "Progress",
 	"research.total": "Total",
 	"research.open": "Open",
@@ -96,6 +99,8 @@ export const en = {
 	"subject.tree": "Tree",
 
 	"sources.new": "New source",
+	"sources.empty":
+		"No sources yet. Add an archive, book or website you have used.",
 	"sources.title": "Title",
 	"sources.type": "Type",
 	"sources.repository": "Repository",
@@ -121,6 +126,9 @@ export const en = {
 	"settings.io.exportGedcom": "Export GEDCOM",
 	"settings.io.importJson": "Import JSON",
 	"settings.io.importGedcom": "Import GEDCOM",
+	"settings.io.empty":
+		"Your tree is empty. Start in the tree or import a backup.",
+	"settings.io.emptyCta": "Go to the tree",
 	"settings.io.okExport": "File saved: {file}",
 	"settings.io.okImport":
 		"Import complete: {persons} persons, {families} families, {sources} sources.",

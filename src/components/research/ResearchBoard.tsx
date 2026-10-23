@@ -115,6 +115,9 @@ export function ResearchBoard() {
 					</>
 				)}
 			</div>
+			{tasks.length === 0 && (
+				<p class="empty-state">{t("research.empty")}</p>
+			)}
 			<ul class="tasks">
 				{tasks.map((tsk) => (
 					<li key={tsk.id}>

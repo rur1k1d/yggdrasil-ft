@@ -4,7 +4,7 @@ import { exportGedcom } from "../../io/gedcom-export";
 import { type GedcomImportError, importGedcom } from "../../io/gedcom-import";
 import { exportJSON, importJSON } from "../../io/json";
 import type { YggdrasilDoc } from "../../model/types";
-import { getDoc, replaceDoc } from "../../store/store";
+import { doc, getDoc, replaceDoc } from "../../store/store";
 
 type Status = { kind: "ok" | "err"; text: string } | null;
 
@@ -54,6 +54,12 @@ export function DataIO() {
 	const [status, setStatus] = useState<Status>(null);
 	const jsonInput = useRef<HTMLInputElement>(null);
 	const gedcomInput = useRef<HTMLInputElement>(null);
+	const current = doc.value;
+	const isEmpty =
+		current.persons.length === 0 &&
+		current.families.length === 0 &&
+		current.sources.length === 0 &&
+		current.tasks.length === 0;
 
 	const handleExportJson = () => {
 		const name = `yggdrasil-ft-${fileStamp()}.json`;
@@ -125,6 +131,11 @@ export function DataIO() {
 		<section class="settings-io">
 			<h2>{t("settings.io.title")}</h2>
 			<p class="view-note">{t("settings.io.hint")}</p>
+			{isEmpty && (
+				<p class="empty-state">
+					{t("settings.io.empty")} <a href="#/">{t("settings.io.emptyCta")}</a>
+				</p>
+			)}
 			<div class="io-actions">
 				<button type="button" class="btn" onClick={handleExportJson}>
 					{t("settings.io.exportJson")}

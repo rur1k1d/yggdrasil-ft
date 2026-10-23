@@ -162,6 +162,15 @@ body {
 	color: var(--accent-bright);
 }
 
+.empty-state {
+	margin: var(--space-3) 0;
+	padding: var(--space-3) var(--space-4);
+	border: 1px dashed var(--border);
+	border-radius: var(--radius-md);
+	color: var(--ink-muted);
+	max-width: 42rem;
+}
+
 /* Footer */
 .shell-footer {
 	display: flex;

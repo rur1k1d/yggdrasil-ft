@@ -48,6 +48,9 @@ export function SourceRegistry() {
 			>
 				{t("sources.new")}
 			</button>
+			{d.sources.length === 0 && (
+				<p class="empty-state">{t("sources.empty")}</p>
+			)}
 			<ul>
 				{d.sources.map((s) => (
 					<li key={s.id}>
