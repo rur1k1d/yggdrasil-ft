@@ -1,69 +1,130 @@
-# Yggdrasil_ft
+# Yggdrasil-ft
 
-**Offline-first family-tree builder with a research TODO board.**
-Build your ancestry in the browser, keep every note about *where to look next*,
-and never send a single byte of your family data anywhere.
+**An offline-first family tree with a research TODO board.** Build ancestry in
+the browser, keep track of where to look next, and keep every byte of family
+data on your own machine.
 
-> Status: **P0 — planning/docs.** No app code yet. Roadmap: `plan.md`,
-> tracker: `goal_resume.md`, schema: `data_model.md`.
+[Live demo](https://rur1k1d.github.io/yggdrasil-ft/) ·
+[Project plan](plan.md) · [Privacy contract](docs/privacy.md) ·
+[GEDCOM notes](docs/gedcom.md) · MIT
 
-## Why
+> **Status: v0.1.0, first public release (October 2026).** The core workflow is
+> usable: people and relations, an SVG tree, a research board fed by question
+> templates, a source registry, JSON/GEDCOM import and export, English/Polish UI
+> and an installable offline PWA. The demo ships with a fictional Norse seed.
 
-Most genealogy tools are either cloud services (your family data lives on someone
-else's server) or desktop software with a steep learning curve. `yggdrasil-ft`
-is a small, local-first web app that you download and use:
-
-- **Confidential by design** — all data stays in your browser (`localStorage`),
-  no accounts, no sync, no telemetry, no third-party scripts. Works fully offline
-  once loaded (installable PWA).
-- **Research-first** — the point is not just drawing a tree, but tracking the
-  *open questions*: who is missing, which archive to query next, which hypothesis
-  to test. Every person can carry a research TODO with sources and outcomes.
-- **Yours forever** — export the whole document as JSON, exchange with other
-  tools via **GEDCOM 5.5.1**, print or export markdown reports.
-
-## Roadmap (short)
-
-| Phase | Content |
+| Desktop, English | Mobile, Polish |
 |---|---|
-| P0 | Docs, license, privacy rules, seed dataset *(current)* |
-| P1 | Vite + Preact + TS skeleton, store with migrations, PWA offline, JSON export/import |
-| P2 | People, relations, SVG tree (pan/zoom, keyboard), validation |
-| P3 | Research TODO board + templates + markdown export |
-| P4 | Sources, citations, reports, privacy mode |
-| P5 | GEDCOM 5.5.1 import/export with round-trip tests |
-| P6 | Release polish, GitHub Pages demo, template repo, `v0.1.0` |
-| P7 | Photos (IndexedDB), timeline/map, DNA notes, encrypted local vault |
+| ![Tree view on desktop](docs/img/tree-desktop-en.png) | ![Tree view on mobile](docs/img/tree-mobile-pl.png) |
 
-Details and acceptance criteria per phase: `plan.md`.
+## What works today
 
-## Privacy (the short version)
+- **People:** create, edit and delete persons (given name, surname, sex, living
+  flag). Deletion asks for confirmation.
+- **Relations:** partner and parent-child links, added and removed from the
+  person editor.
+- **Tree:** SVG layout with drag or arrow-key panning, wheel or `+`/`-` zoom,
+  reset, person search, and validation warnings (ancestry cycles, impossible
+  date sequences, possible duplicates).
+- **Research board:** apply question templates to the whole tree or one person,
+  see progress counts and the task list with open/done/blocked/dropped status.
+- **Sources:** registry with type, quality, repository, reference, URL,
+  accessed date, transcription and note.
+- **Import/export:** JSON backups and GEDCOM 5.5.1 (documented subset, see
+  [docs/gedcom.md](docs/gedcom.md)).
+- **Localization:** English and Polish, with a language switch.
+- **PWA:** installable, works offline after the first visit, no external
+  requests at runtime.
+- **Accessibility and layout:** keyboard-operable tree, visible focus, labelled
+  controls, reduced-motion support, layouts tested from 320 to 1440 px.
 
-- Nothing leaves your device. No server exists.
-- The repo ships **fictional demo data only**; real trees are git-ignored
-  (`data/`, `vault/`, `*.ged`) and stay on your machine.
-- Living persons can be masked for screenshots and print (privacy mode).
-- Full contract: `docs/privacy.md`.
+![Research board on desktop](docs/img/research-desktop-en.png)
 
-## Getting started (once P1 lands)
+## Not in the UI yet
+
+These exist in the model or as library code but are deliberately not advertised
+as finished features:
+
+- Editing research task details (status, priority, hypothesis, next action,
+  outcome) and linking sources to tasks. Tasks currently come from templates
+  and render read-only.
+- Markdown research export, per-person reports, print styles and privacy-mode
+  masking. The modules exist, the UI does not.
+- Attachments, photos, timeline and map views (planned for a later release).
+
+## Privacy
+
+- There is no backend, no account, no sync, no telemetry and no third-party
+  script or font. The app holds all state in `localStorage` under
+  `yggdrasil_ft_v1`.
+- The repository ships a **fictional seed only**. Real trees are git-ignored
+  (everything under `data/` except the seed, plus `vault/` and `*.ged`).
+- Clearing browser storage deletes the tree, so export a JSON backup regularly.
+- The published demo is the app with its fictional seed. Full contract:
+  [docs/privacy.md](docs/privacy.md).
+
+## Quick start
+
+Requires Node 22.12 or newer (tested on Node 24, which CI uses).
 
 ```bash
-npm install
-npm run dev        # local dev server
-npm test           # Vitest
-npm run build      # static build in dist/ — open it offline
+npm ci
+npm run dev        # http://127.0.0.1:5173
 ```
+
+Production build and local preview:
+
+```bash
+npm run build      # static output in dist/
+npm run preview
+```
+
+## Checks
+
+```bash
+npm run verify      # Biome, TypeScript, Vitest (38 tests), production build
+npm run probe       # PWA: online boot, service worker, offline boot
+npm run probe:pages # dist served under /yggdrasil-ft/: manifest, icons, SW scope, offline
+npm run probe:ui    # 48 responsive checks at 320-1440 px, EN + PL; writes docs/img
+```
+
+The probes drive headless Chromium over CDP and have no extra dependencies. Set
+`CHROMIUM_BIN` if Chromium is not at `/usr/bin/chromium`. CI runs `verify`,
+`probe` and `probe:pages` on every push and pull request; the Pages workflow
+deploys `dist` to GitHub Pages.
+
+## Project layout
+
+```
+src/model      document types and schema
+src/store      localStorage store, migrations, seed
+src/io         JSON and GEDCOM 5.5.1 import/export
+src/components tree canvas, forms, research, sources, data IO
+src/i18n       English and Polish dictionaries
+scripts        headless Chromium probes (PWA, Pages mount, responsive)
+```
+
+## Use it as a template
+
+The repo is set up to be copied: the data layer, i18n and probes are generic and
+the demo content is fictional.
+
+1. Click **Use this template** on GitHub (or fork the repo).
+2. Run `npm ci && npm run dev`.
+3. To start with an empty tree, open DevTools, remove the `yggdrasil_ft_v1`
+   localStorage entry and reload, or import your own JSON backup.
+4. Keep the MIT license notice, or replace the copyright line if you ship a
+   substantially modified version.
 
 ## Naming note
 
-The project name follows the Norse world tree (Yggdrasil), a natural fit for a
-family tree. It is **not** related to the Yggdrasil Network
-(`yggdrasil-network/*`, an encrypted IPv6 overlay) nor to other projects that
-happen to share the name — see the topic list; `-ft` stands for *family tree*.
-Prior art acknowledged: `KeithPetro/Yggdrasil` and `marioparra/yggdrasil-opensource`
-(self-hosted GEDCOM viewers). We differ by being fully offline and by making the
-research TODO the centre of the app.
+The name follows the Norse world tree, a natural fit for a family tree. It is
+**not** related to the Yggdrasil Network (`yggdrasil-network/*`, an encrypted
+IPv6 overlay) or to other projects that share the name. `-ft` stands for
+*family tree*. Prior art acknowledged: `KeithPetro/Yggdrasil` and
+`marioparra/yggdrasil-opensource` (self-hosted GEDCOM viewers). This project
+differs by being fully offline and by putting the research workflow first.
 
 ## License
 
-MIT © 2026 Ivan Kryvosheyev — see `LICENSE`.
+MIT © 2026 Ivan Kryvosheyev. See [LICENSE](LICENSE).
