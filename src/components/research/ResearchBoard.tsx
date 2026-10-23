@@ -3,10 +3,22 @@ import {
 	RESEARCH_TEMPLATES,
 	type ResearchTemplate,
 } from "../../data/research-templates";
+import type { Dict } from "../../i18n/en";
 import { t } from "../../i18n/t";
 import { uid } from "../../lib/ids";
-import type { ResearchTask, TaskSubjectType } from "../../model/types";
+import type {
+	ResearchTask,
+	TaskStatus,
+	TaskSubjectType,
+} from "../../model/types";
 import { doc, update } from "../../store/store";
+
+const STATUS_KEY: Record<TaskStatus, keyof Dict> = {
+	open: "status.open",
+	done: "status.done",
+	blocked: "status.blocked",
+	dropped: "status.dropped",
+};
 
 function getName(d: any, id?: string): string {
 	if (!id) return "-";
@@ -16,7 +28,7 @@ function getName(d: any, id?: string): string {
 		return `${n?.forename || ""} ${n?.surname || ""}`.trim() || id;
 	}
 	const f = d.families.find((x: any) => x.id === id);
-	if (f) return `Family ${f.id}`;
+	if (f) return `${t("subject.family")} ${f.id}`;
 	return id;
 }
 
@@ -106,7 +118,7 @@ export function ResearchBoard() {
 			<ul class="tasks">
 				{tasks.map((tsk) => (
 					<li key={tsk.id}>
-						[{tsk.status}] {tsk.question}
+						[{t(STATUS_KEY[tsk.status])}] {tsk.question}
 					</li>
 				))}
 			</ul>

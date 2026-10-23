@@ -14,15 +14,11 @@ export const en = {
 	"nav.settings": "Settings",
 
 	"views.tree.title": "Tree",
-	"views.tree.note": "Person cards and the SVG tree canvas arrive in P2.",
 	"views.research.title": "Research",
-	"views.research.note": "The research TODO board arrives in P3.",
 	"views.sources.title": "Sources",
-	"views.sources.note":
-		"The source registry with archival references arrives in P4.",
 	"views.sources.subtitle": "Source registry and citations.",
 	"views.settings.title": "Settings",
-	"views.settings.note": "Locale, theme and privacy mode arrive in P6.",
+	"views.settings.note": "Language and data export.",
 
 	"views.notFound.title": "Page not found",
 	"views.notFound.note": "Unknown address — go back to the tree.",
@@ -103,7 +99,7 @@ export const en = {
 	"sources.title": "Title",
 	"sources.type": "Type",
 	"sources.repository": "Repository",
-	"sources.reference": "Reference/signatura",
+	"sources.reference": "Reference / call number",
 	"sources.url": "URL",
 	"sources.quality": "Quality",
 	"sources.transcription": "Transcription",

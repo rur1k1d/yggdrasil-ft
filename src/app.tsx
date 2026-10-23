@@ -1,3 +1,4 @@
+import { useEffect } from "preact/hooks";
 import { ResearchBoard } from "./components/research/ResearchBoard";
 import { DataIO } from "./components/settings/DataIO";
 import { SourceRegistry } from "./components/sources/SourceRegistry";
@@ -14,10 +15,6 @@ const NAV: ReadonlyArray<{ href: string; name: RouteName; label: keyof Dict }> =
 		{ href: "#/settings", name: "settings", label: "nav.settings" },
 	];
 
-function viewNote(key: "tree" | "research" | "sources" | "settings") {
-	return <p class="view-note">{t(`views.${key}.note`)}</p>;
-}
-
 function renderView(current: Route) {
 	switch (current.name) {
 		case "tree":
@@ -30,7 +27,7 @@ function renderView(current: Route) {
 			return (
 				<>
 					<h1 class="view-title">{t("views.settings.title")}</h1>
-					{viewNote("settings")}
+					<p class="view-note">{t("views.settings.note")}</p>
 					<DataIO />
 				</>
 			);
@@ -50,6 +47,11 @@ function renderView(current: Route) {
 export function App() {
 	const current = route.value;
 	const langLabel = locale.value === "en" ? "PL" : "EN";
+
+	useEffect(() => {
+		document.documentElement.lang = locale.value;
+		document.title = t("app.title");
+	}, [locale.value]);
 
 	return (
 		<>
