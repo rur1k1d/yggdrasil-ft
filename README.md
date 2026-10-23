@@ -8,7 +8,7 @@ data on your own machine.
 [Project plan](plan.md) · [Privacy contract](docs/privacy.md) ·
 [GEDCOM notes](docs/gedcom.md) · MIT
 
-> **Status: v0.1.0, first public release (October 2026).** The core workflow is
+> **Status: v0.1.0, first public release (2026-10-23).** The core workflow is
 > usable: people and relations, an SVG tree, a research board fed by question
 > templates, a source registry, JSON/GEDCOM import and export, English/Polish UI
 > and an installable offline PWA. The demo ships with a fictional Norse seed.

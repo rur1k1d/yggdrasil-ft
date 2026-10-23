@@ -3,7 +3,7 @@
 > Repository: **`yggdrasil-ft`** (planned: `github.com/rur1k1d/yggdrasil-ft`, MIT).
 > Local folder: `projects/Yggdrasil_Project/`.
 > Files/docs/comments **English**; app UI **PL + EN**.
-> Status: **v0.1.0 (P6 release polish, October 2026).** P0-P5 implemented.
+> Status: **v0.1.0 released 2026-10-23.** Live: https://rur1k1d.github.io/yggdrasil-ft/
 > Reports, print, Markdown export and privacy-mode masking exist as modules but
 > are not exposed in the UI yet; see `README.md` for the honest feature list.
 
@@ -167,10 +167,11 @@ archive query letters. Each template: title, target scope, ordered questions,
       round-trip test on the fictional fixture (plus one public test GEDCOM).
       *Verify:* import→export→import idempotent for supported subset; documented
       limitations; Vitest.
-- [ ] **P6 — Release polish.** i18n complete, empty states, responsive, a11y pass,
-      Lighthouse PWA installable, GitHub Pages demo, repo as Template, README with
-      screenshots (fictional data), topics, release `v0.1.0`.
-      *Verify:* all gates green on CI; Pages demo loads offline after first visit.
+- [x] **P6 — Release polish.** i18n complete, empty states, responsive, a11y pass,
+      PWA installable, GitHub Pages demo, repo as Template, README with
+      screenshots (fictional data), topics, release `v0.1.0` (2026-10-23).
+      *Verify:* CI green, mount + live probes PASS, Pages demo loads offline after
+      first visit.
 - [ ] **P7 — Later options.** Photos/scans (IndexedDB), timeline + place map,
       DNA segment notes, encrypted export vault (user passphrase, still local),
       optional Portfolio sample page using the same island.
@@ -217,4 +218,4 @@ archive query letters. Each template: title, target scope, ordered questions,
 2. Should P7 encrypted vault use WebCrypto AES-GCM with a passphrase (default) —
    confirm no cloud even as an option?
 3. *Resolved:* the fictional seed is Norse-themed (Yggdrasil-consistent).
-4. Releases: semantic versioning from `v0.1.0` after P6 — tag history in repo?
+4. *Resolved:* semantic versioning starts at `v0.1.0`; tags live in the repo.

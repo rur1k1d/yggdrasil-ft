@@ -3,8 +3,8 @@
 > Offline-first **family-tree web app** with a research TODO board.
 > Repo target: **`rur1k1d/yggdrasil-ft`** (MIT). Local-only data — no server, no accounts.
 > Docs in English; app UI PL+EN. Reuses the Planner store/templates patterns.
-> **Status: P6 in progress — P6.0–P6.9 done, P6.10 (README + meta) in progress;
-> P6.11 publish gate next.**
+> **Status: P6 complete. v0.1.0 released 2026-10-23.
+> Live: https://rur1k1d.github.io/yggdrasil-ft/**
 
 ## Goal (one sentence)
 
@@ -63,7 +63,7 @@ offline, with all personal data stored **locally and confidentially**.
 - [x] **P3** Research TODO board (templates, stats, read-only list; task editing + Markdown UI pending)
 - [x] **P4** Sources registry UI (citation/report/print/privacy modules exist; UI pending, see README)
 - [x] **P5** GEDCOM 5.5.1
-- [ ] **P6** Release polish (checklist below)
+- [x] **P6** Release polish, Pages demo, template repo, v0.1.0 (checklist below)
 - [ ] **P7** Later options
 
 ## P6 checklist — release polish (goal items, in order)
@@ -103,12 +103,12 @@ commits exist (P0, P1), both authored with the retired domain email; no remote;
 - [x] **P6.10 README + meta** — fix the stale "P0, no app code" status;
       screenshots in `docs/img/` (fictional data only); features; install/dev;
       demo link (GitHub Pages only); topics; template-flag prep.
-- [ ] **P6.11 Publish gate** — ask first. Then `gh repo create
-      rur1k1d/yggdrasil-ft --public --source=. --remote=origin --push`
-      (**no** `--license` overwrite), set topics, `is_template=true`, Pages
-      `build_type=workflow`, `gh release create v0.1.0`. Verify live: SW active,
-      offline reload, PL/EN switch, 0 console errors, 0 external requests.
-      Update this file + `plan.md` + README.
+- [x] **P6.11 Publish gate** — go-ahead received 2026-10-23. Created public
+      `rur1k1d/yggdrasil-ft` (no license overwrite), pushed `main`, enabled Pages
+      with `build_type=workflow`, set description/homepage/12 topics,
+      `is_template=true`. Live probe PASS: SW active, offline reload, PL/EN
+      switch, installable manifest, 0 console errors, 0 third-party requests.
+      Released `v0.1.0`.
 
 **Done criteria:** gates green; ui-probe 0 overflow / 0 console errors in EN+PL;
 PWA probe PASS online and offline; CI green; Pages live at
@@ -127,9 +127,10 @@ zero real data and zero private-domain references anywhere.
 
 ## Next action
 
-**P6.10 README + meta**, then stop at **P6.11** and ask for the publish
-go-ahead (repo create, push, Pages, template flag, release). Keep local-only,
-PL+EN, no hardcoded strings.
+**P6 complete and v0.1.0 released.** Next backlog (P7 candidates): editable
+research task details and source links, wire Markdown/report/print/privacy-mode
+UI, photos/attachments in IndexedDB. Keep local-only, PL+EN, no hardcoded
+strings.
 
 ## Log
 
@@ -140,7 +141,9 @@ PL+EN, no hardcoded strings.
 - 2026-10-20 — Starting P4.
 - 2026-10-20 — P5 done. GEDCOM 5.5.1 import + export (`src/io/gedcom-{shared,export,import}.ts`), settings UI in `DataIO.tsx` (JSON/GEDCOM export+import, PL/EN keys, structured error codes), mapping + limitations as-built in `docs/gedcom.md`. Evidence: `tests/gedcom.test.ts` 13 tests (round-trip stability on `sample-family.json`, UTF-8/`@`-escape round-trip, empty-doc exact round-trip, gates empty/charset/gedcom7/syntax + unknown-vs-ignored report, purity); `npm run verify` exit 0 (biome 0 errors, tsc 0, 35/35 tests, vite build OK). Deviation: plan's "public test GEDCOM" replaced by synthetic malformed/UTF-8 fixtures — seed stays fictional-only; revisit with a public-domain file if interop gaps appear in P6.
 - 2026-10-23 — goal_resume prepared for P6: ordered P6.0–P6.11 checklist, commit identity + publication rules, publish gate. Code P2–P5 is still uncommitted; history still needs the identity rewrite (P6.1).
-- 2026-10-23 — P6.0–P6.9 done: baseline, identity rewrite (zero old email in history), P2–P5 committed, privacy gate, i18n, empty states, responsive, a11y, base-safe PWA, CI + Pages. P6.10 README/meta in progress; publish gate next.
+- 2026-10-23 — P6.0–P6.9 done: baseline, identity rewrite (zero old email in history), P2–P5 committed, privacy gate, i18n, empty states, responsive, a11y, base-safe PWA, CI + Pages.
+- 2026-10-23 — P6.10 done: README for v0.1.0, plan/tracker status corrected, topics + template prep.
+- 2026-10-23 — P6.11 done: public repo + Pages + topics + template flag + live probe PASS + release v0.1.0. P6 complete.
 
 ## Resume prompt (copy/paste with /goal)
 ```
@@ -164,3 +167,4 @@ Rules: files EN, UI PL+EN, local-only, never publish our domain/site/email, comm
 - 2026-10-23 — P6.8 evidence: relative base + manifest fields/icons/SW fallback; installability errors []; root + `/yggdrasil-ft/` mount probes PASS incl. offline boot, 0 absolute asset leaks. Commit 666238c.
 - 2026-10-23 — P6.9 evidence: `.github/workflows/ci.yml` (verify + probes) and `pages.yml` (verify + deploy); `scripts/mount-probe.mjs` + `npm run probe:pages` PASS; verify 0, 38/38. Commits de71131, 119d9cc.
 - 2026-10-23 — P6.10 evidence: README rewritten for v0.1.0 (honest feature list, "Not in the UI yet", privacy/backup, quick start, checks, template use, naming note, Pages demo link, 3 screenshots); plan/tracker status corrected (P3/P4 partial notes, Q3 resolved); topics + template flag queued for P6.11.
+- 2026-10-23 — P6.11 evidence: `gh repo create --public --source=. --remote=origin --push` (15 commits, main); Pages `build_type=workflow`; description + homepage + 12 topics; `is_template=true`. CI run 39985872952 success, Pages run 39985872955 success. Live probe at https://rur1k1d.github.io/yggdrasil-ft/: boot, SW control, manifest errors [], installability errors [], icons 200, EN + PL (nav Drzewo/Badania/Źródła/Ustawienia), offline reload boot, 0 console errors, 0 exceptions, 0 third-party requests. Release v0.1.0 (this commit included).
