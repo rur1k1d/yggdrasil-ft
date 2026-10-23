@@ -20,6 +20,17 @@ export function t(key: keyof Dict): string {
 	return dictionaries[locale.value][key];
 }
 
+export function tParams(
+	key: keyof Dict,
+	vars: Record<string, string | number>,
+): string {
+	let text = dictionaries[locale.value][key];
+	for (const [name, value] of Object.entries(vars)) {
+		text = text.replaceAll(`{${name}}`, String(value));
+	}
+	return text;
+}
+
 export function getLocale(): Locale {
 	return locale.value;
 }

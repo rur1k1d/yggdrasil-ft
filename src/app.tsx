@@ -1,6 +1,10 @@
+import { ResearchBoard } from "./components/research/ResearchBoard";
+import { DataIO } from "./components/settings/DataIO";
+import { SourceRegistry } from "./components/sources/SourceRegistry";
 import type { Dict } from "./i18n/en";
 import { locale, t, toggleLocale } from "./i18n/t";
 import { type Route, type RouteName, route } from "./router";
+import { TreeView } from "./views/tree/TreeView";
 
 const NAV: ReadonlyArray<{ href: string; name: RouteName; label: keyof Dict }> =
 	[
@@ -17,31 +21,17 @@ function viewNote(key: "tree" | "research" | "sources" | "settings") {
 function renderView(current: Route) {
 	switch (current.name) {
 		case "tree":
-			return (
-				<>
-					<h1 class="view-title">{t("views.tree.title")}</h1>
-					{viewNote("tree")}
-				</>
-			);
+			return <TreeView />;
 		case "research":
-			return (
-				<>
-					<h1 class="view-title">{t("views.research.title")}</h1>
-					{viewNote("research")}
-				</>
-			);
+			return <ResearchBoard />;
 		case "sources":
-			return (
-				<>
-					<h1 class="view-title">{t("views.sources.title")}</h1>
-					{viewNote("sources")}
-				</>
-			);
+			return <SourceRegistry />;
 		case "settings":
 			return (
 				<>
 					<h1 class="view-title">{t("views.settings.title")}</h1>
 					{viewNote("settings")}
+					<DataIO />
 				</>
 			);
 		default:
