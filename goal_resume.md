@@ -3,8 +3,8 @@
 > Offline-first **family-tree web app** with a research TODO board.
 > Repo target: **`rur1k1d/yggdrasil-ft`** (MIT). Local-only data — no server, no accounts.
 > Docs in English; app UI PL+EN. Reuses the Planner store/templates patterns.
-> **Status: P0–P5 done (P2–P5 code still uncommitted). P6 in progress — work the
-> P6.0–P6.11 checklist below in order.**
+> **Status: P6 in progress — P6.0–P6.9 done, P6.10 (README + meta) in progress;
+> P6.11 publish gate next.**
 
 ## Goal (one sentence)
 
@@ -30,7 +30,7 @@ offline, with all personal data stored **locally and confidentially**.
 | Storage | `localStorage` **`yggdrasil_ft_v1`** — one versioned doc, Planner store pattern (schema/migrate/safeParse/subscribe + in-memory fallback) |
 | Offline | PWA via `vite-plugin-pwa` (app shell cached, installable) |
 | Tree | own generation layout + inline SVG (pan/zoom, keyboard) |
-| Interop | JSON (P1) · Markdown (P3) · **GEDCOM 5.5.1 (P5)** |
+| Interop | JSON (P1) · Markdown module (UI pending) · **GEDCOM 5.5.1 (P5)** |
 | Tooling | Biome + `tsc --noEmit` + Vitest |
 | Delivery | GitHub Actions → GitHub Pages demo, repo as Template |
 | **Data** | **local-only, no telemetry, real data NEVER committed** (fictional seed only) |
@@ -60,8 +60,8 @@ offline, with all personal data stored **locally and confidentially**.
 - [x] **P0** Docs + meta + privacy rules + git-ignore.
 - [x] **P1** Skeleton + offline
 - [x] **P2** People + relations + tree
-- [x] **P3** Research TODO board
-- [x] **P4** Sources, citations, reports (Source registry, citations on facts, confidence, per-person Markdown/print report, privacy mode)
+- [x] **P3** Research TODO board (templates, stats, read-only list; task editing + Markdown UI pending)
+- [x] **P4** Sources registry UI (citation/report/print/privacy modules exist; UI pending, see README)
 - [x] **P5** GEDCOM 5.5.1
 - [ ] **P6** Release polish (checklist below)
 - [ ] **P7** Later options
@@ -86,21 +86,21 @@ commits exist (P0, P1), both authored with the retired domain email; no remote;
       `node_modules/`); scan tracked files for real personal data, emails,
       phones, absolute paths and our domain; only the fictional seed may ship.
       Stop and report on any finding.
-- [ ] **P6.4 i18n** — nested EN/PL key parity test, hardcoded-string scan,
+- [x] **P6.4 i18n** — nested EN/PL key parity test, hardcoded-string scan,
       natural-Polish pass (pl-translation-reviewer).
-- [ ] **P6.5 Empty states** — empty tree, no search results, empty research
+- [x] **P6.5 Empty states** — empty tree, no search results, empty research
       board, empty sources, empty IO.
-- [ ] **P6.6 Responsive** — 320/360/390/768/1024/1440, zero horizontal overflow,
+- [x] **P6.6 Responsive** — 320/360/390/768/1024/1440, zero horizontal overflow,
       phone-usable tree; add `scripts/ui-probe.mjs` (zero-dep CDP, same style as
       `scripts/pwa-probe.mjs`) with EN+PL screenshots.
-- [ ] **P6.7 a11y** — focus order, labels, AA contrast on new surfaces, reduced
+- [x] **P6.7 a11y** — focus order, labels, AA contrast on new surfaces, reduced
       motion, `aria-live` on dynamic content, keyboard-only pass.
-- [ ] **P6.8 PWA base-safe** — relative `start_url`/`scope`/`navigateFallback`
+- [x] **P6.8 PWA base-safe** — relative `start_url`/`scope`/`navigateFallback`
       and icon paths; installable; offline-after-first-visit probe PASS.
-- [ ] **P6.9 CI + Pages** — `.github/workflows/ci.yml` + `deploy.yml`;
-      `base: "/yggdrasil-ft/"` for CI builds; verify `dist` under a
-      `/yggdrasil-ft/` mount locally.
-- [ ] **P6.10 README + meta** — fix the stale "P0, no app code" status;
+- [x] **P6.9 CI + Pages** — `.github/workflows/ci.yml` + `pages.yml`;
+      relative Vite base so one `dist` works at the domain root and under
+      `/yggdrasil-ft/`; `npm run probe:pages` verifies the mount locally.
+- [x] **P6.10 README + meta** — fix the stale "P0, no app code" status;
       screenshots in `docs/img/` (fictional data only); features; install/dev;
       demo link (GitHub Pages only); topics; template-flag prep.
 - [ ] **P6.11 Publish gate** — ask first. Then `gh repo create
@@ -127,10 +127,9 @@ zero real data and zero private-domain references anywhere.
 
 ## Next action
 
-**P6 — Release polish, in the order of the checklist above.** Start with P6.0
-(dev preview + baseline gates), then identity rewrite + commits + privacy gate,
-then the polish items, and stop at P6.11 for the publish go-ahead. Keep
-local-only, PL+EN, no hardcoded strings.
+**P6.10 README + meta**, then stop at **P6.11** and ask for the publish
+go-ahead (repo create, push, Pages, template flag, release). Keep local-only,
+PL+EN, no hardcoded strings.
 
 ## Log
 
@@ -141,6 +140,7 @@ local-only, PL+EN, no hardcoded strings.
 - 2026-10-20 — Starting P4.
 - 2026-10-20 — P5 done. GEDCOM 5.5.1 import + export (`src/io/gedcom-{shared,export,import}.ts`), settings UI in `DataIO.tsx` (JSON/GEDCOM export+import, PL/EN keys, structured error codes), mapping + limitations as-built in `docs/gedcom.md`. Evidence: `tests/gedcom.test.ts` 13 tests (round-trip stability on `sample-family.json`, UTF-8/`@`-escape round-trip, empty-doc exact round-trip, gates empty/charset/gedcom7/syntax + unknown-vs-ignored report, purity); `npm run verify` exit 0 (biome 0 errors, tsc 0, 35/35 tests, vite build OK). Deviation: plan's "public test GEDCOM" replaced by synthetic malformed/UTF-8 fixtures — seed stays fictional-only; revisit with a public-domain file if interop gaps appear in P6.
 - 2026-10-23 — goal_resume prepared for P6: ordered P6.0–P6.11 checklist, commit identity + publication rules, publish gate. Code P2–P5 is still uncommitted; history still needs the identity rewrite (P6.1).
+- 2026-10-23 — P6.0–P6.9 done: baseline, identity rewrite (zero old email in history), P2–P5 committed, privacy gate, i18n, empty states, responsive, a11y, base-safe PWA, CI + Pages. P6.10 README/meta in progress; publish gate next.
 
 ## Resume prompt (copy/paste with /goal)
 ```
@@ -151,5 +151,16 @@ Rules: files EN, UI PL+EN, local-only, never publish our domain/site/email, comm
 
 ## Evidence
 
-- 2026-10-20 — P4 done. Sources, citations, reports: Source registry CRUD, citations on facts (sourceIds), confidence display, per-person Markdown report + print CSS, privacy mode (mask living). PL/EN, local-only. `tsc --noEmit` clean, `npm run build` OK.
+- 2026-10-20 — P4 modules done: source registry CRUD wired; citation/report/print/privacy-mode modules and tests exist but are not exposed in the UI (corrected 2026-10-23 after P6.4 audit). PL/EN, local-only. `tsc --noEmit` clean, `npm run build` OK.
 - 2026-10-20 — P5 evidence: `npm run verify` exit 0 — biome 0 errors, `tsc --noEmit` 0, Vitest 35/35 (incl. `tests/gedcom.test.ts` ×13), `vite build` OK. Files: `src/io/gedcom-{shared,export,import}.ts`, `src/components/settings/DataIO.tsx`, `tests/gedcom.test.ts`, updated `docs/gedcom.md`, i18n `settings.io.*` (EN+PL), `tParams` in `src/i18n/t.ts`.
+- 2026-10-23 — P6.0 evidence: verify exit 0 (biome 0 errors/12 warnings, tsc 0, 35/35 tests, build OK, precache 9); probe PASS online+offline, 0 console errors/exceptions/external requests. Found 390 px overflow (572 EN / 677 PL).
+- 2026-10-23 — P6.1 evidence: `git filter-branch` rewrote main; dates preserved; refs/original removed, reflog expired, gc; `git log --all --format='%an%ae%cn%ce' | grep -c pentestit` = 0.
+- 2026-10-23 — P6.2 evidence: commits 17e97d7 (P2–P5 app) + 45da608 (tracker); tree clean; verify exit 0.
+- 2026-10-23 — P6.3 evidence: 56 tracked files, only fictional seed under `data/`, no secrets, zero retired-domain hits; fixed tracker leak in b56d660; gate PASS.
+- 2026-10-23 — P6.4 evidence: 5 i18n tests (parity, placeholders, literal `t()` keys), 38/38; stale notes removed; lang/title sync; PL pass; headless verified. Commit 7f98c47.
+- 2026-10-23 — P6.5 evidence: empty tree/search/research/sources/IO states, EN+PL headless check. Commits 0085ba9, 260f6ec.
+- 2026-10-23 — P6.6 evidence: responsive fixes, `scripts/ui-probe.mjs`, 48/48 checks PASS at 320–1440, 6 screenshots in `docs/img/`. Commit 0b91342.
+- 2026-10-23 — P6.7 evidence: tabbable tree + arrow pan/±/0 zoom, 2 px focus ring, main focus on route change, labelled controls, live result count, delete confirm, source type/quality selects; contrast 0 failures; a11y probe PASS. Commit 53a2779.
+- 2026-10-23 — P6.8 evidence: relative base + manifest fields/icons/SW fallback; installability errors []; root + `/yggdrasil-ft/` mount probes PASS incl. offline boot, 0 absolute asset leaks. Commit 666238c.
+- 2026-10-23 — P6.9 evidence: `.github/workflows/ci.yml` (verify + probes) and `pages.yml` (verify + deploy); `scripts/mount-probe.mjs` + `npm run probe:pages` PASS; verify 0, 38/38. Commits de71131, 119d9cc.
+- 2026-10-23 — P6.10 evidence: README rewritten for v0.1.0 (honest feature list, "Not in the UI yet", privacy/backup, quick start, checks, template use, naming note, Pages demo link, 3 screenshots); plan/tracker status corrected (P3/P4 partial notes, Q3 resolved); topics + template flag queued for P6.11.

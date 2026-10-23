@@ -3,7 +3,9 @@
 > Repository: **`yggdrasil-ft`** (planned: `github.com/rur1k1d/yggdrasil-ft`, MIT).
 > Local folder: `projects/Yggdrasil_Project/`.
 > Files/docs/comments **English**; app UI **PL + EN**.
-> Status: **P0 (docs) — plan written, no code yet.**
+> Status: **v0.1.0 (P6 release polish, October 2026).** P0-P5 implemented.
+> Reports, print, Markdown export and privacy-mode masking exist as modules but
+> are not exposed in the UI yet; see `README.md` for the honest feature list.
 
 ## 1. Goal (one sentence)
 
@@ -155,11 +157,11 @@ archive query letters. Each template: title, target scope, ordered questions,
       validation warnings, fictional demo tree browsable.
       *Verify:* create/edit/persist across reload; cycle + impossible-date warnings;
       a11y focus order; 0 console errors; Vitest model invariants.
-- [x] **P3 — Research TODO board.** Task CRUD, templates instantiator, per-person
-      research panel, progress stats, markdown export of the research list.
+- [x] **P3 — Research TODO board.** Templates instantiator, progress stats, task
+      list. *(Partial in v0.1.0: task editing and markdown export UI pending.)*
       *Verify:* template → tasks; markdown matches a fixed fixture; Vitest.
-- [x] **P4 — Sources + citations + reports.** Source registry UI, citations on
-      facts, confidence display, per-person Markdown/print report, privacy mode.
+- [x] **P4 — Sources + citations + reports.** Source registry UI. *(Partial in
+      v0.1.0: citations UI, per-person reports/print and privacy mode pending.)*
       *Verify:* citation integrity tests; print CSS audit; privacy masking.
 - [x] **P5 — GEDCOM 5.5.1.** Import + export with mapping table and a
       round-trip test on the fictional fixture (plus one public test GEDCOM).
@@ -190,7 +192,7 @@ archive query letters. Each template: title, target scope, ordered questions,
 1. `gh repo create rur1k1d/yggdrasil-ft --public --license mit --description "Offline-first family-tree builder with a research TODO board (local-only data)"`.
    *(Todo: `--license mit` writes a stock MIT file — we ship our own with the copyright line.)*
 2. Topics: `genealogy`, `family-tree`, `gedcom`, `local-first`, `offline-first`,
-   `pwa`, `preact`, `vite`, `privacy`, `mit`.
+   `pwa`, `preact`, `typescript`, `vite`, `privacy`, `mit`.
 3. `.github/workflows/ci.yml` (lint/typecheck/test/build) + `deploy.yml` (Pages).
 4. Settings → *Template repository* = on; README gets the live-demo link.
 5. Naming note in README: unrelated to Yggdrasil Network (`yggdrasil-network/*`),
@@ -214,6 +216,5 @@ archive query letters. Each template: title, target scope, ordered questions,
 1. Auto-backup nudge: how often should the app remind about a JSON export?
 2. Should P7 encrypted vault use WebCrypto AES-GCM with a passphrase (default) —
    confirm no cloud even as an option?
-3. Do we want the fictional seed to be Norse-themed (Yggdrasil-consistent) or
-   plain `Person A/B`?
+3. *Resolved:* the fictional seed is Norse-themed (Yggdrasil-consistent).
 4. Releases: semantic versioning from `v0.1.0` after P6 — tag history in repo?
