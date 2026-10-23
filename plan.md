@@ -125,6 +125,16 @@ migration/emigration, DNA-match triangulation, cemetery/monument photos,
 archive query letters. Each template: title, target scope, ordered questions,
 "where to look" hints, expected document types.
 
+## 7a. Agents to leverage (from AGENTS_SETTINGS)
+
+**Always consult `projects/AGENTS_SETTINGS/` proactively** (support only, never override rules). Use them throughout the phase, not just when stuck:
+- `ecc-copied/code-reviewer.md` + `ecc-copied/commit-reviewer.md` + `ecc-copied/pr-test-analyzer.md` - pre-commit/review hygiene
+- `ecc-copied/build-error-resolver.md` + `fetched-external/typescript-pro.md` - TS/Vite/Preact type/build issues
+- `ecc-copied/code-architect.md` / `ecc-copied/architect.md` - structure for new modules/views
+- `ecc-copied/security-reviewer.md` + `fetched-external/security-auditor.md` - ensure no secrets/data leaks (local-only)
+- `ecc-copied/spec-miner.md` - clarify requirements from notes/specs
+- `.opencode/agents/pl-translation-reviewer.md` - PL/EN UI consistency
+
 ## 8. Phases
 
 - [x] **P0 — Docs + meta.** `plan.md`, `goal_resume.md`, `data_model.md`,
@@ -140,18 +150,18 @@ archive query letters. Each template: title, target scope, ordered questions,
       *Verify:* `biome check` clean, `tsc --noEmit` 0, `vitest` green, `build` OK,
       offline load of `dist` works (SW active), JSON round-trip test, 0 console errors.
       **DONE 2026-10-19** (see `goal_resume.md` → Evidence).
-- [ ] **P2 — People + relations + tree.** Person CRUD, relation editor
+- [x] **P2 — People + relations + tree.** Person CRUD, relation editor
       (parent/child/partner), SVG tree with pan/zoom + keyboard nav, search,
       validation warnings, fictional demo tree browsable.
       *Verify:* create/edit/persist across reload; cycle + impossible-date warnings;
       a11y focus order; 0 console errors; Vitest model invariants.
-- [ ] **P3 — Research TODO board.** Task CRUD, templates instantiator, per-person
+- [x] **P3 — Research TODO board.** Task CRUD, templates instantiator, per-person
       research panel, progress stats, markdown export of the research list.
       *Verify:* template → tasks; markdown matches a fixed fixture; Vitest.
-- [ ] **P4 — Sources + citations + reports.** Source registry UI, citations on
+- [x] **P4 — Sources + citations + reports.** Source registry UI, citations on
       facts, confidence display, per-person Markdown/print report, privacy mode.
       *Verify:* citation integrity tests; print CSS audit; privacy masking.
-- [ ] **P5 — GEDCOM 5.5.1.** Import + export with mapping table and a
+- [x] **P5 — GEDCOM 5.5.1.** Import + export with mapping table and a
       round-trip test on the fictional fixture (plus one public test GEDCOM).
       *Verify:* import→export→import idempotent for supported subset; documented
       limitations; Vitest.
