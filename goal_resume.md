@@ -154,7 +154,7 @@ Rules: files EN, UI PL+EN, local-only, never publish our domain/site/email, comm
 - 2026-10-20 — P4 modules done: source registry CRUD wired; citation/report/print/privacy-mode modules and tests exist but are not exposed in the UI (corrected 2026-10-23 after P6.4 audit). PL/EN, local-only. `tsc --noEmit` clean, `npm run build` OK.
 - 2026-10-20 — P5 evidence: `npm run verify` exit 0 — biome 0 errors, `tsc --noEmit` 0, Vitest 35/35 (incl. `tests/gedcom.test.ts` ×13), `vite build` OK. Files: `src/io/gedcom-{shared,export,import}.ts`, `src/components/settings/DataIO.tsx`, `tests/gedcom.test.ts`, updated `docs/gedcom.md`, i18n `settings.io.*` (EN+PL), `tParams` in `src/i18n/t.ts`.
 - 2026-10-23 — P6.0 evidence: verify exit 0 (biome 0 errors/12 warnings, tsc 0, 35/35 tests, build OK, precache 9); probe PASS online+offline, 0 console errors/exceptions/external requests. Found 390 px overflow (572 EN / 677 PL).
-- 2026-10-23 — P6.1 evidence: `git filter-branch` rewrote main; dates preserved; refs/original removed, reflog expired, gc; `git log --all --format='%an%ae%cn%ce' | grep -c pentestit` = 0.
+- 2026-10-23 — P6.1 evidence: `git filter-branch` rewrote main; dates preserved; refs/original removed, reflog expired, gc; `git log --all` shows zero occurrences of the retired domain email (author and committer).
 - 2026-10-23 — P6.2 evidence: commits 17e97d7 (P2–P5 app) + 45da608 (tracker); tree clean; verify exit 0.
 - 2026-10-23 — P6.3 evidence: 56 tracked files, only fictional seed under `data/`, no secrets, zero retired-domain hits; fixed tracker leak in b56d660; gate PASS.
 - 2026-10-23 — P6.4 evidence: 5 i18n tests (parity, placeholders, literal `t()` keys), 38/38; stale notes removed; lang/title sync; PL pass; headless verified. Commit 7f98c47.
