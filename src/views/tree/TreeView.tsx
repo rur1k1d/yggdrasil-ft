@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import { PersonForm } from "../../components/forms/PersonForm";
 import { RelationEditor } from "../../components/forms/RelationEditor";
 import { TreeCanvas } from "../../components/tree/TreeCanvas";
-import { t } from "../../i18n/t";
+import { t, tParams } from "../../i18n/t";
 import { validateDoc } from "../../lib/validate";
 import type { Person } from "../../model/types";
 import { doc, update } from "../../store/store";
@@ -40,13 +40,17 @@ export function TreeView() {
 				<input
 					type="search"
 					placeholder={t("views.tree.search")}
+					aria-label={t("views.tree.search")}
 					value={search}
 					onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
 				/>
 			</div>
+			<p class="sr-only" role="status" aria-live="polite">
+				{tParams("views.tree.resultCount", { count: persons.length })}
+			</p>
 			{warnings.length > 0 && (
 				<section class="warnings" aria-live="polite">
-					<h3>{t("views.tree.warnings")}</h3>
+					<h2>{t("views.tree.warnings")}</h2>
 					<ul>
 						{warnings.map((w, i) => (
 							<li key={i}>{t(w.messageKey)}</li>

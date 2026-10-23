@@ -71,10 +71,10 @@ export function ResearchBoard() {
 
 	return (
 		<div class="research-board">
-			<h2>{t("views.research.title")}</h2>
-			<p>{t("views.research.subtitle")}</p>
+			<h1 class="view-title">{t("views.research.title")}</h1>
+			<p class="view-subtitle">{t("views.research.subtitle")}</p>
 			<section class="stats">
-				<h4>{t("research.stats")}</h4>
+				<h2>{t("research.stats")}</h2>
 				<div>
 					{t("research.total")}: {stats.total} | {t("research.open")}:{" "}
 					{stats.open} | {t("research.done")}: {stats.done} |{" "}
@@ -83,6 +83,7 @@ export function ResearchBoard() {
 			</section>
 			<div class="actions">
 				<select
+					aria-label={t("research.applyTemplate")}
 					onChange={(e) => {
 						const val = (e.target as HTMLSelectElement).value;
 						setTemplate(RESEARCH_TEMPLATES.find((x) => x.id === val) || null);
@@ -98,6 +99,7 @@ export function ResearchBoard() {
 				{template && (
 					<>
 						<select
+							aria-label={t("subject.person")}
 							onChange={(e) =>
 								setSelectedPerson((e.target as HTMLSelectElement).value)
 							}

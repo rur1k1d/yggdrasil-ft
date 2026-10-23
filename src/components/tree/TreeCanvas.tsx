@@ -103,7 +103,9 @@ export function TreeCanvas(props: Props) {
 				class="tree-svg"
 				viewBox="0 0 800 400"
 				role="img"
+				tabindex={0}
 				aria-label={t("nav.tree")}
+				aria-describedby="tree-pan-hint"
 				onMouseDown={onDown as any}
 			>
 				<g transform={`translate(${tx},${ty}) scale(${scale})`}>
@@ -124,7 +126,9 @@ export function TreeCanvas(props: Props) {
 					))}
 				</g>
 			</svg>
-			<p class="small">{t("tree.panHint")}</p>
+			<p class="small" id="tree-pan-hint">
+				{t("tree.panHint")}
+			</p>
 		</div>
 	);
 }

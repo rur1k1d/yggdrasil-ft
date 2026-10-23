@@ -66,7 +66,7 @@ export function RelationEditor(props: Props) {
 
 	return (
 		<div class="relations">
-			<h4>{t("views.tree.relations")}</h4>
+			<h2>{t("views.tree.relations")}</h2>
 			<div class="relation-rows">
 				{relatedFamilies.map((f) => (
 					<div key={f.id} class="relation-row">
@@ -102,6 +102,7 @@ export function RelationEditor(props: Props) {
 			{relType === "partner" && (
 				<div class="form-row">
 					<select
+						aria-label={t("relation.partner")}
 						value={partner}
 						onChange={(e) => setPartner((e.target as HTMLSelectElement).value)}
 					>

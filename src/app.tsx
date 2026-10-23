@@ -1,4 +1,4 @@
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { ResearchBoard } from "./components/research/ResearchBoard";
 import { DataIO } from "./components/settings/DataIO";
 import { SourceRegistry } from "./components/sources/SourceRegistry";
@@ -47,11 +47,20 @@ function renderView(current: Route) {
 export function App() {
 	const current = route.value;
 	const langLabel = locale.value === "en" ? "PL" : "EN";
+	const mainRef = useRef<HTMLElement>(null);
+	const previousRoute = useRef(current.name);
 
 	useEffect(() => {
 		document.documentElement.lang = locale.value;
 		document.title = t("app.title");
 	}, [locale.value]);
+
+	useEffect(() => {
+		if (previousRoute.current !== current.name) {
+			previousRoute.current = current.name;
+			mainRef.current?.focus();
+		}
+	}, [current.name]);
 
 	return (
 		<>
@@ -81,7 +90,7 @@ export function App() {
 					</a>
 				))}
 			</nav>
-			<main id="main" class="shell-main" tabIndex={-1}>
+			<main id="main" class="shell-main" tabIndex={-1} ref={mainRef}>
 				{renderView(current)}
 			</main>
 			<footer class="shell-footer">

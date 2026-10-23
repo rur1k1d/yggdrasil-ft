@@ -1,4 +1,4 @@
-import { t } from "../../i18n/t";
+import { t, tParams } from "../../i18n/t";
 import { uid } from "../../lib/ids";
 import type { NamePart, Person, Sex } from "../../model/types";
 
@@ -98,7 +98,14 @@ export function PersonForm(props: Props) {
 						type="button"
 						class="btn danger"
 						onClick={() => {
-							if (props.person) props.onDelete?.(props.person.id);
+							if (!props.person) return;
+							const n = props.person.names[0];
+							const name =
+								`${n?.forename || ""} ${n?.surname || ""}`.trim() ||
+								props.person.id;
+							if (window.confirm(tParams("person.deleteConfirm", { name }))) {
+								props.onDelete?.(props.person.id);
+							}
 						}}
 					>
 						{t("person.delete")}

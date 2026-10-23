@@ -1,13 +1,36 @@
 import { useState } from "preact/hooks";
 import { t } from "../../i18n/t";
 import { uid } from "../../lib/ids";
-import type { Source, SourceType } from "../../model/types";
+import type { Source, SourceQuality, SourceType } from "../../model/types";
 import { doc, update } from "../../store/store";
 
 export function SourceRegistry() {
 	const d = doc.value;
 	const [editing, setEditing] = useState<string | "new" | null>(null);
 	const [form, setForm] = useState<Partial<Source>>({});
+
+	const SOURCE_TYPES: SourceType[] = [
+		"archive",
+		"parish-register",
+		"civil-register",
+		"census",
+		"book",
+		"website",
+		"database",
+		"dna",
+		"photograph",
+		"interview",
+		"family-record",
+		"other",
+	];
+
+	const SOURCE_QUALITIES: SourceQuality[] = [
+		"original",
+		"derivative",
+		"transcription",
+		"index",
+		"unknown",
+	];
 
 	const save = () => {
 		const now = new Date().toISOString();
@@ -19,7 +42,7 @@ export function SourceRegistry() {
 			reference: form.reference || "",
 			url: form.url || "",
 			accessedAt: form.accessedAt || now,
-			quality: form.quality as any,
+			quality: (form.quality as SourceQuality) || "unknown",
 			transcription: form.transcription || "",
 			note: form.note || "",
 			createdAt: form.createdAt || now,
@@ -36,8 +59,8 @@ export function SourceRegistry() {
 
 	return (
 		<div class="sources">
-			<h2>{t("views.sources.title")}</h2>
-			<p>{t("views.sources.subtitle")}</p>
+			<h1 class="view-title">{t("views.sources.title")}</h1>
+			<p class="view-subtitle">{t("views.sources.subtitle")}</p>
 			<button
 				type="button"
 				class="btn primary"
@@ -54,7 +77,8 @@ export function SourceRegistry() {
 			<ul>
 				{d.sources.map((s) => (
 					<li key={s.id}>
-						<strong>{s.title}</strong> ({s.type}) [{s.reference}]
+						<strong>{s.title}</strong> ({t(`sourceType.${s.type}`)}) [
+						{t(`sourceQuality.${s.quality ?? "unknown"}`)}] [{s.reference}]
 						<button
 							type="button"
 							class="btn"
@@ -70,6 +94,7 @@ export function SourceRegistry() {
 			</ul>
 			{editing && (
 				<div class="form">
+					<h2>{t(editing === "new" ? "sources.new" : "views.tree.edit")}</h2>
 					<label>
 						<span>{t("sources.title")}</span>
 						<input
@@ -84,15 +109,21 @@ export function SourceRegistry() {
 					</label>
 					<label>
 						<span>{t("sources.type")}</span>
-						<input
-							value={form.type || ""}
-							onInput={(e) =>
+						<select
+							value={form.type || "archive"}
+							onChange={(e) =>
 								setForm({
 									...form,
-									type: (e.target as HTMLInputElement).value as SourceType,
+									type: (e.target as HTMLSelectElement).value as SourceType,
 								})
 							}
-						/>
+						>
+							{SOURCE_TYPES.map((type) => (
+								<option key={type} value={type}>
+									{t(`sourceType.${type}`)}
+								</option>
+							))}
+						</select>
 					</label>
 					<label>
 						<span>{t("sources.repository")}</span>
@@ -117,6 +148,25 @@ export function SourceRegistry() {
 								})
 							}
 						/>
+					</label>
+					<label>
+						<span>{t("sources.quality")}</span>
+						<select
+							value={form.quality || "unknown"}
+							onChange={(e) =>
+								setForm({
+									...form,
+									quality: (e.target as HTMLSelectElement)
+										.value as SourceQuality,
+								})
+							}
+						>
+							{SOURCE_QUALITIES.map((quality) => (
+								<option key={quality} value={quality}>
+									{t(`sourceQuality.${quality}`)}
+								</option>
+							))}
+						</select>
 					</label>
 					<label>
 						<span>{t("sources.url")}</span>
