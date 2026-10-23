@@ -45,9 +45,9 @@ offline, with all personal data stored **locally and confidentially**.
   (`data/`, `vault/`, `*.ged` are git-ignored).
 - No third-party scripts/fonts/CDNs in the app (offline + privacy).
 - After each phase: run the gates, tick the phase here, append **Evidence** + **Log**.
-- Never publish `pentestit.pl`, the portfolio site URL, `dev@pentestit.pl`, `ik@…`
-  or any other domain email: not in commits, README, `package.json`, topics or the
-  repo homepage. Demo link = GitHub Pages only. `LICENSE` keeps
+- Never publish our domain, our site URL or any domain email: not in commits,
+  README, `package.json`, topics or the repo homepage. The only public contact
+  identity is `rur1k1d@proton.me`. Demo link = GitHub Pages only. `LICENSE` keeps
   `MIT © 2026 Ivan Kryvosheyev` (author name is intended).
 - Screenshots for the README go to **`docs/img/`** only. `.gitignore` ignores
   `*.png`/`*.jpg` globally with allow-listed exceptions (`public/icons/**`,
@@ -69,19 +69,19 @@ offline, with all personal data stored **locally and confidentially**.
 ## P6 checklist — release polish (goal items, in order)
 
 State when written (2026-10-23): P2–P5 code complete but **uncommitted**; only two
-commits exist (P0, P1), both authored `Ivan <dev@pentestit.pl>`; no remote;
+commits exist (P0, P1), both authored with the retired domain email; no remote;
 `rur1k1d/yggdrasil-ft` does not exist yet.
 
-- [ ] **P6.0 Baseline** — start `npm run dev`, review the app with the fictional
+- [x] **P6.0 Baseline** — start `npm run dev`, review the app with the fictional
       seed, then run `npm run verify` + `npm run probe`; record exact numbers.
-- [ ] **P6.1 Identity rewrite** — rewrite P0/P1 author+committer to
+- [x] **P6.1 Identity rewrite** — rewrite P0/P1 author+committer to
       `rur1k1d <rur1k1d@proton.me>` with dates preserved
       (`git filter-branch --env-filter`; `git-filter-repo` is not installed).
-      Verify `git log --format='%an <%ae> | %cn <%ce>'` shows zero
-      `dev@pentestit.pl`.
-- [ ] **P6.2 Commit P2–P5** — 2–4 semantic commits (`feat(p2)`… or grouped by
+      Verify `git log --format='%an <%ae> | %cn <%ce>'` shows zero occurrences of
+      the retired domain email.
+- [x] **P6.2 Commit P2–P5** — 2–4 semantic commits (`feat(p2)`… or grouped by
       module); leave the working tree clean.
-- [ ] **P6.3 Privacy gate** — `git status` shows only intended files; ignore
+- [x] **P6.3 Privacy gate** — `git status` shows only intended files; ignore
       matrix (`data/*` except seed, `vault/`, `*.ged`, `exports/`, `dist/`,
       `node_modules/`); scan tracked files for real personal data, emails,
       phones, absolute paths and our domain; only the fictional seed may ship.
