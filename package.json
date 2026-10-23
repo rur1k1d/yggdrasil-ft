@@ -16,7 +16,8 @@
 		"test": "vitest run",
 		"probe": "node scripts/pwa-probe.mjs",
 		"probe:ui": "node scripts/ui-probe.mjs",
-		"verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+		"verify": "npm run lint && npm run typecheck && npm run test && npm run build",
+		"probe:pages": "node scripts/mount-probe.mjs"
 	},
 	"dependencies": {
 		"@preact/signals": "^2.11.3",
