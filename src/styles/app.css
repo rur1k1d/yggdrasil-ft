@@ -213,14 +213,26 @@ body {
 
 .tree-actions {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 0.5rem;
 	align-items: center;
 }
 
+.tree-actions input {
+	flex: 1 1 12rem;
+	min-width: 0;
+}
+
 .tree-layout {
 	display: grid;
-	grid-template-columns: 200px 1fr 1fr;
+	grid-template-columns: minmax(160px, 200px) minmax(0, 1fr) minmax(0, 1fr);
 	gap: 1rem;
+}
+
+@media (max-width: 900px) {
+	.tree-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
 }
 
 .tree-list ul {
@@ -230,6 +242,7 @@ body {
 
 .person-item {
 	background: none;
+	overflow-wrap: anywhere;
 	border: 1px solid var(--border);
 	color: var(--text);
 	padding: 0.5rem;
@@ -241,12 +254,19 @@ body {
 
 .form-row {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 0.5rem;
 	margin-bottom: 0.5rem;
 }
 
+.form-row > label {
+	flex: 1 1 12rem;
+	min-width: 0;
+}
+
 .form-actions {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 0.5rem;
 	margin-top: 0.5rem;
 }
@@ -288,6 +308,7 @@ body {
 
 .tree-canvas-controls {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 0.5rem;
 	align-items: center;
 	margin-bottom: 0.5rem;
@@ -329,6 +350,7 @@ body {
 	border: 1px solid var(--border);
 	padding: 0.5rem;
 	background: var(--bg-surface);
+	overflow-wrap: anywhere;
 }
 
 /* P4 */
@@ -341,6 +363,7 @@ body {
 	padding: 0.5rem;
 	margin-bottom: 0.25rem;
 	background: var(--bg-surface);
+	overflow-wrap: anywhere;
 }
 .citation {
 	font-size: 0.9rem;
@@ -381,4 +404,27 @@ body {
 }
 .io-status.err {
 	border-left-color: var(--danger);
+}
+
+/* Responsive hardening */
+input,
+select,
+textarea,
+button {
+	max-width: 100%;
+}
+
+input,
+select,
+textarea {
+	min-width: 0;
+	font: inherit;
+}
+
+.tree-list ul {
+	margin: 0;
+}
+
+.io-status {
+	overflow-wrap: anywhere;
 }
