@@ -48,7 +48,7 @@ data on your own machine.
   controls, a focus trap and focus return in the relation dialog, body scroll
   lock, reduced-motion support, layouts tested from 320 to 1440 px.
 
-![Research board on desktop](docs/img/research-desktop-en.png)
+![Research board on desktop (v0.2.0)](docs/img/research-desktop-en.png)
 
 ## Not in the UI yet
 
