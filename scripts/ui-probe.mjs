@@ -322,12 +322,291 @@ async function main() {
 			}
 		}
 
+		const features = [];
+		const checkFeature = (name, pass, detail) => {
+			features.push({ name, pass, detail });
+			if (!pass) {
+				failures.push({ feature: name, reason: detail ?? "check failed" });
+			}
+		};
+
+		await client.send("Emulation.setDeviceMetricsOverride", {
+			width: 1440,
+			height: 900,
+			deviceScaleFactor: 1,
+			mobile: false,
+		});
+		await evaluate(client, "location.hash = '#/'");
+		await client.send("Page.reload", { ignoreCache: false });
+		await poll(
+			client,
+			"document.querySelectorAll('.tree-card').length === 8",
+			10_000,
+		);
+		await sleep(250);
+
+		const initial = await evaluate(
+			client,
+			`(() => {
+				const canvas = document.querySelector('.tree-canvas');
+				const card = document.querySelector('.tree-card');
+				return {
+					cards: document.querySelectorAll('.tree-card').length,
+					edges: document.querySelectorAll('.tree-edge').length,
+					head: document.querySelector('.tree-head-select select')?.value,
+					selected: document.querySelector('.tree-card.is-selected')?.dataset.treePerson,
+					relations: Boolean(document.querySelector('.relations')),
+					dateFields: document.querySelectorAll('input[name="birthYear"], input[name="deathYear"]').length,
+					cardWidth: card ? Math.round(card.getBoundingClientRect().width) : 0,
+					canvasWidth: canvas ? Math.round(canvas.getBoundingClientRect().width) : 0,
+				};
+			})()`,
+		);
+		checkFeature(
+			"seed tree renders",
+			initial?.cards === 8 &&
+				initial?.edges === 7 &&
+				initial?.head === "p2" &&
+				initial?.selected === "p2",
+			initial,
+		);
+		checkFeature(
+			"details and life-date fields render",
+			initial?.relations === true && initial?.dateFields === 2,
+			initial,
+		);
+		checkFeature(
+			"desktop cards are readable",
+			(initial?.cardWidth ?? 0) >= 135,
+			initial,
+		);
+
+		const search = await evaluate(
+			client,
+			`(async () => {
+				const input = document.querySelector('.tree-search input');
+				input.value = 'Astrith';
+				input.dispatchEvent(new Event('input', { bubbles: true }));
+				await new Promise((resolve) => setTimeout(resolve, 120));
+				const dimmed = document.querySelectorAll('.tree-card.is-dimmed').length;
+				const items = document.querySelectorAll('.people-list .person-item').length;
+				const status = document.querySelector('[role="status"]')?.textContent;
+				input.value = '';
+				input.dispatchEvent(new Event('input', { bubbles: true }));
+				await new Promise((resolve) => setTimeout(resolve, 120));
+				return { dimmed, items, status };
+			})()`,
+		);
+		checkFeature(
+			"search dims cards but keeps the tree",
+			search?.dimmed === 7 && search?.items === 1,
+			search,
+		);
+
+		const head = await evaluate(
+			client,
+			`(async () => {
+				const select = document.querySelector('.tree-head-select select');
+				const setter = Object.getOwnPropertyDescriptor(
+					HTMLSelectElement.prototype,
+					'value',
+				).set;
+				setter.call(select, 'p7');
+				select.dispatchEvent(new Event('change', { bubbles: true }));
+				await new Promise((resolve) => setTimeout(resolve, 180));
+				const after = {
+					hash: location.hash,
+					head: select.value,
+					selected: document.querySelector('.tree-card.is-selected')?.dataset.treePerson,
+				};
+				setter.call(select, 'p2');
+				select.dispatchEvent(new Event('change', { bubbles: true }));
+				await new Promise((resolve) => setTimeout(resolve, 180));
+				return after;
+			})()`,
+		);
+		checkFeature(
+			"head switch updates the route and selection",
+			head?.hash === "#/tree/p7" &&
+				head?.head === "p7" &&
+				head?.selected === "p7",
+			head,
+		);
+
+		const drag = await evaluate(
+			client,
+			`(async () => {
+				const cards = [...document.querySelectorAll('.tree-card')];
+				const from = cards.find((card) => card.dataset.treePerson === 'p2');
+				const to = cards.find((card) => card.dataset.treePerson === 'p1');
+				from.focus();
+				const a = from.getBoundingClientRect();
+				const b = to.getBoundingClientRect();
+				const sx = a.left + a.width / 2;
+				const sy = a.top + a.height / 2;
+				const tx = b.left + b.width / 2;
+				const ty = b.top + b.height / 2;
+				from.dispatchEvent(
+					new PointerEvent('pointerdown', {
+						bubbles: true,
+						button: 0,
+						clientX: sx,
+						clientY: sy,
+						pointerId: 1,
+					}),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 60));
+				window.dispatchEvent(
+					new PointerEvent('pointermove', {
+						bubbles: true,
+						button: 0,
+						clientX: tx,
+						clientY: ty,
+						pointerId: 1,
+					}),
+				);
+				window.dispatchEvent(
+					new PointerEvent('pointerup', {
+						bubbles: true,
+						button: 0,
+						clientX: tx,
+						clientY: ty,
+						pointerId: 1,
+					}),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				const dialog = document.querySelector('.modal');
+				const first = dialog?.querySelector('button');
+				return {
+					dialog: Boolean(dialog),
+					title: dialog?.querySelector('h2')?.textContent,
+					focused: document.activeElement?.getAttribute('data-link-choice'),
+					pressed: document.activeElement?.getAttribute('aria-pressed'),
+					bodyLocked: document.body.style.overflow,
+					firstText: first?.textContent,
+				};
+			})()`,
+		);
+		checkFeature(
+			"drag opens an accessible relation dialog",
+			drag?.dialog === true &&
+				drag?.focused === "partner" &&
+				drag?.pressed === "true" &&
+				drag?.bodyLocked === "hidden",
+			drag,
+		);
+
+		const trap = await evaluate(
+			client,
+			`(async () => {
+				const buttons = [...document.querySelectorAll('.modal button')];
+				const last = buttons.at(-1);
+				last.focus();
+				window.dispatchEvent(
+					new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 40));
+				return {
+					focused: document.activeElement?.getAttribute('data-link-choice'),
+					first: buttons[0]?.getAttribute('data-link-choice'),
+				};
+			})()`,
+		);
+		checkFeature("dialog traps Tab focus", trap?.focused === trap?.first, trap);
+
+		const closed = await evaluate(
+			client,
+			`(async () => {
+				window.dispatchEvent(
+					new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 80));
+				return {
+					dialog: Boolean(document.querySelector('.modal')),
+					focused: document.activeElement?.dataset.treePerson,
+					bodyLocked: document.body.style.overflow,
+					edges: document.querySelectorAll('.tree-edge').length,
+				};
+			})()`,
+		);
+		checkFeature(
+			"Escape closes and returns focus",
+			closed?.dialog === false &&
+				closed?.focused === "p2" &&
+				closed?.bodyLocked === "" &&
+				closed?.edges === 7,
+			closed,
+		);
+
+		const zoom = await evaluate(
+			client,
+			`(async () => {
+				const card = document.querySelector('.tree-card');
+				card.focus();
+				const before = document.querySelector('.tree-scale')?.textContent;
+				card.dispatchEvent(
+					new KeyboardEvent('keydown', { key: '+', bubbles: true }),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 60));
+				const zoomed = document.querySelector('.tree-scale')?.textContent;
+				card.dispatchEvent(
+					new KeyboardEvent('keydown', { key: '0', bubbles: true }),
+				);
+				await new Promise((resolve) => setTimeout(resolve, 60));
+				const reset = document.querySelector('.tree-scale')?.textContent;
+				return { before, zoomed, reset };
+			})()`,
+		);
+		checkFeature(
+			"keyboard zoom and reset work",
+			zoom?.before !== zoom?.zoomed && zoom?.reset === zoom?.before,
+			zoom,
+		);
+
+		await client.send("Emulation.setDeviceMetricsOverride", {
+			width: 390,
+			height: 844,
+			deviceScaleFactor: 1,
+			mobile: false,
+		});
+		await client.send("Page.reload", { ignoreCache: false });
+		await poll(
+			client,
+			"document.querySelectorAll('.tree-card').length === 8",
+			10_000,
+		);
+		await sleep(250);
+		const mobile = await evaluate(
+			client,
+			`(() => {
+				const card = document.querySelector('.tree-card');
+				const viewport = document.querySelector('.tree-viewport');
+				const canvas = document.querySelector('.tree-canvas');
+				return {
+					cardWidth: card ? Math.round(card.getBoundingClientRect().width) : 0,
+					viewportWidth: viewport ? Math.round(viewport.getBoundingClientRect().width) : 0,
+					canvasHeight: canvas ? Math.round(canvas.getBoundingClientRect().height) : 0,
+					scrollWidth: document.documentElement.scrollWidth,
+					innerWidth,
+				};
+			})()`,
+		);
+		checkFeature(
+			"mobile tree opens at a readable zoom",
+			(mobile?.cardWidth ?? 0) >= 100 &&
+				(mobile?.scrollWidth ?? 1) <= (mobile?.innerWidth ?? 0) + 1,
+			mobile,
+		);
+
 		const report = {
-			checks,
+			checks: checks + features.length,
+			routeChecks: checks,
+			featureChecks: features.length,
 			widths: WIDTHS,
 			locales: LOCALES,
 			routes: ROUTES.map((route) => route.name),
 			screenshots: written,
+			features,
 			consoleErrors,
 			exceptions,
 			failures,

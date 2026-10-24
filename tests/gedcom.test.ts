@@ -70,8 +70,8 @@ describe("io/gedcom round-trip", () => {
 
 	it("preserves the seed's persons, names, sex, events and relations", () => {
 		const doc = importSeedRoundTrip();
-		expect(doc.persons).toHaveLength(4);
-		expect(doc.families).toHaveLength(1);
+		expect(doc.persons).toHaveLength(8);
+		expect(doc.families).toHaveLength(3);
 		expect(doc.sources).toHaveLength(2);
 
 		const p1 = doc.persons[0];
@@ -242,8 +242,8 @@ describe("io/gedcom import gates", () => {
 		expect(result.ok).toBe(true);
 		if (!result.ok) return;
 		expect(result.report).toMatchObject({
-			persons: 4,
-			families: 1,
+			persons: 8,
+			families: 3,
 			sources: 2,
 		});
 	});

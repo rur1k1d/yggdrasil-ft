@@ -1,164 +1,140 @@
-import { useState } from "preact/hooks";
 import { t } from "../../i18n/t";
-import { uid } from "../../lib/ids";
-import type { Family } from "../../model/types";
+import {
+	canLink,
+	RELATED_IDS,
+	RELATIVE_LINK,
+	type RelativeRole,
+} from "../../lib/relations";
+import type { YggdrasilDoc } from "../../model/types";
 
 type Props = {
 	personId: string;
+	doc: YggdrasilDoc;
 	persons: { id: string; name: string }[];
-	families: Family[];
-	onAddFamily: (family: Family) => void;
-	onRemoveFamily: (id: string) => void;
+	onSelect: (id: string) => void;
+	onLink: (targetId: string, relative: RelativeRole) => void;
+	onUnlink: (targetId: string, relative: RelativeRole) => void;
+	onNew: (relative: RelativeRole) => void;
 };
 
+const GROUPS: ReadonlyArray<{
+	relative: RelativeRole;
+	labelKey: "relation.parents" | "relation.partners" | "relation.children";
+	newKey:
+		| "views.tree.newParent"
+		| "views.tree.newPartner"
+		| "views.tree.newChild";
+}> = [
+	{
+		relative: "parent",
+		labelKey: "relation.parents",
+		newKey: "views.tree.newParent",
+	},
+	{
+		relative: "partner",
+		labelKey: "relation.partners",
+		newKey: "views.tree.newPartner",
+	},
+	{
+		relative: "child",
+		labelKey: "relation.children",
+		newKey: "views.tree.newChild",
+	},
+];
+
+function canLinkRelative(
+	doc: YggdrasilDoc,
+	personId: string,
+	targetId: string,
+	relative: RelativeRole,
+): boolean {
+	const link = RELATIVE_LINK[relative](personId, targetId);
+	return canLink(doc, link.fromId, link.toId, link.kind) === null;
+}
+
 export function RelationEditor(props: Props) {
-	const [relType, setRelType] = useState<"partner" | "parentChild">("partner");
-	const [partner, setPartner] = useState("");
-	const [parent, setParent] = useState("");
-	const [child, setChild] = useState("");
-
-	const addPartner = () => {
-		if (!partner) return;
-		const family: Family = {
-			id: uid("family"),
-			partnerIds: [props.personId, partner],
-			childIds: [],
-			type: "marriage",
-			sourceIds: [],
-			note: "",
-		};
-		props.onAddFamily(family);
-		setPartner("");
-	};
-
-	const addParentChild = () => {
-		if (!parent && !child) return;
-		let childIds: string[] = [];
-		if (parent && child) {
-			childIds = [child, props.personId].filter(
-				(x, i, arr) => arr.indexOf(x) === i,
-			);
-		} else if (parent) {
-			childIds = [props.personId];
-		} else if (child) {
-			childIds = [child, props.personId].filter(
-				(x, i, arr) => arr.indexOf(x) === i,
-			);
-		}
-		const family: Family = {
-			id: uid("family"),
-			partnerIds: parent ? [parent] : [],
-			childIds,
-			type: "unknown",
-			sourceIds: [],
-			note: "",
-		};
-		props.onAddFamily(family);
-		setParent("");
-		setChild("");
-	};
-
-	const relatedFamilies = props.families.filter(
-		(f) =>
-			f.partnerIds.includes(props.personId) ||
-			f.childIds.includes(props.personId),
+	const names = new Map(
+		props.persons.map((person) => [person.id, person.name]),
+	);
+	const hasRelations = GROUPS.some(
+		(group) =>
+			RELATED_IDS[group.relative](props.doc, props.personId).length > 0,
 	);
 
 	return (
 		<div class="relations">
 			<h2>{t("views.tree.relations")}</h2>
-			<div class="relation-rows">
-				{relatedFamilies.map((f) => (
-					<div key={f.id} class="relation-row">
-						<span>
-							{f.partnerIds.length
-								? t("relation.partner")
-								: t("relation.parentChild")}
-						</span>
-						<button
-							type="button"
-							class="btn"
-							onClick={() => props.onRemoveFamily(f.id)}
-						>
-							{t("relation.remove")}
-						</button>
-					</div>
-				))}
-			</div>
-			<div class="form-row">
-				<label>
-					<span>{t("relation.type")}</span>
-					<select
-						value={relType}
-						onChange={(e) =>
-							setRelType((e.target as HTMLSelectElement).value as any)
-						}
-					>
-						<option value="partner">{t("relation.partner")}</option>
-						<option value="parentChild">{t("relation.parentChild")}</option>
-					</select>
-				</label>
-			</div>
-			{relType === "partner" && (
-				<div class="form-row">
-					<select
-						aria-label={t("relation.partner")}
-						value={partner}
-						onChange={(e) => setPartner((e.target as HTMLSelectElement).value)}
-					>
-						<option value="">--</option>
-						{props.persons
-							.filter((p) => p.id !== props.personId)
-							.map((p) => (
-								<option key={p.id} value={p.id}>
-									{p.name}
-								</option>
-							))}
-					</select>
-					<button type="button" class="btn primary" onClick={addPartner}>
-						{t("relation.add")}
-					</button>
-				</div>
-			)}
-			{relType === "parentChild" && (
-				<div class="form-row">
-					<label>
-						<span>{t("relation.parent")}</span>
-						<select
-							value={parent}
-							onChange={(e) => setParent((e.target as HTMLSelectElement).value)}
-						>
-							<option value="">--</option>
-							{props.persons
-								.filter((p) => p.id !== props.personId)
-								.map((p) => (
-									<option key={p.id} value={p.id}>
-										{p.name}
-									</option>
+			{!hasRelations && <p class="empty-state">{t("relation.noRelations")}</p>}
+			{GROUPS.map((group) => {
+				const ids = RELATED_IDS[group.relative](props.doc, props.personId);
+				const candidates = props.persons.filter(
+					(person) =>
+						person.id !== props.personId &&
+						canLinkRelative(
+							props.doc,
+							props.personId,
+							person.id,
+							group.relative,
+						),
+				);
+				return (
+					<section key={group.relative} class="relation-group">
+						<h3>{t(group.labelKey)}</h3>
+						{ids.length > 0 && (
+							<ul class="relation-chips">
+								{ids.map((id) => (
+									<li key={id} class="relation-chip">
+										<button
+											type="button"
+											class="relation-chip__name"
+											onClick={() => props.onSelect(id)}
+										>
+											{names.get(id) ?? id}
+										</button>
+										<button
+											type="button"
+											class="relation-chip__remove"
+											aria-label={`${t("relation.unlink")}: ${names.get(id) ?? id}`}
+											onClick={() => props.onUnlink(id, group.relative)}
+										>
+											×
+										</button>
+									</li>
 								))}
-						</select>
-					</label>
-					<label>
-						<span>{t("relation.child")}</span>
-						<select
-							value={child}
-							onChange={(e) => setChild((e.target as HTMLSelectElement).value)}
-						>
-							<option value="">--</option>
-							{props.persons
-								.filter((p) => p.id !== props.personId)
-								.map((p) => (
-									<option key={p.id} value={p.id}>
-										{p.name}
-									</option>
-								))}
-						</select>
-					</label>
-					<button type="button" class="btn primary" onClick={addParentChild}>
-						{t("relation.add")}
-					</button>
-				</div>
-			)}
+							</ul>
+						)}
+						<div class="relation-add">
+							<label>
+								<span class="sr-only">{t("relation.linkExisting")}</span>
+								<select
+									value=""
+									aria-label={`${t("relation.linkExisting")}: ${t(group.labelKey)}`}
+									onChange={(event) => {
+										const target = event.currentTarget.value;
+										if (!target) return;
+										props.onLink(target, group.relative);
+										event.currentTarget.value = "";
+									}}
+								>
+									<option value="">{t("relation.linkExisting")}</option>
+									{candidates.map((person) => (
+										<option key={person.id} value={person.id}>
+											{person.name}
+										</option>
+									))}
+								</select>
+							</label>
+							<button
+								type="button"
+								class="btn btn--small"
+								onClick={() => props.onNew(group.relative)}
+							>
+								{t(group.newKey)}
+							</button>
+						</div>
+					</section>
+				);
+			})}
 		</div>
 	);
 }

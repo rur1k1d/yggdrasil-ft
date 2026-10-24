@@ -4,6 +4,7 @@ import { exportGedcom } from "../../io/gedcom-export";
 import { type GedcomImportError, importGedcom } from "../../io/gedcom-import";
 import { exportJSON, importJSON } from "../../io/json";
 import type { YggdrasilDoc } from "../../model/types";
+import { createSeedDoc } from "../../store/seed";
 import { doc, getDoc, replaceDoc } from "../../store/store";
 
 type Status = { kind: "ok" | "err"; text: string } | null;
@@ -88,6 +89,14 @@ export function DataIO() {
 		}
 	};
 
+	const handleLoadDemo = () => {
+		if (!window.confirm(t("settings.io.loadDemoConfirm"))) return;
+		const seed = createSeedDoc();
+		seed.settings = getDoc().settings;
+		replaceDoc(seed);
+		setStatus({ kind: "ok", text: t("settings.io.demoLoaded") });
+	};
+
 	const handleJsonFile = async (event: Event) => {
 		const input = event.currentTarget as HTMLInputElement;
 		const file = input.files?.[0];
@@ -156,6 +165,13 @@ export function DataIO() {
 					onClick={() => gedcomInput.current?.click()}
 				>
 					{t("settings.io.importGedcom")}
+				</button>
+			</div>
+			<div class="io-demo">
+				<h3>{t("settings.io.demoTitle")}</h3>
+				<p>{t("settings.io.loadDemoHint")}</p>
+				<button type="button" class="btn" onClick={handleLoadDemo}>
+					{t("settings.io.loadDemo")}
 				</button>
 			</div>
 			<input

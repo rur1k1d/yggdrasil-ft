@@ -8,10 +8,12 @@ data on your own machine.
 [Project plan](plan.md) · [Privacy contract](docs/privacy.md) ·
 [GEDCOM notes](docs/gedcom.md) · MIT
 
-> **Status: v0.1.0, first public release (2026-10-23).** The core workflow is
-> usable: people and relations, an SVG tree, a research board fed by question
-> templates, a source registry, JSON/GEDCOM import and export, English/Polish UI
-> and an installable offline PWA. The demo ships with a fictional Norse seed.
+> **Status: v0.2.0 (2026-10-23).** Builds on the first public release with a
+> rebuilt tree workspace: generation cards and connectors, a focal person in the
+> URL, drag-to-link with a relation chooser, life dates, search highlighting, an
+> unlinked-person tray, fit/full-screen controls and a richer fictional demo.
+> The rest of the v0.1.0 workflow remains: research board, source registry,
+> JSON/GEDCOM import and export, English/Polish UI and an installable offline PWA.
 
 | Desktop, English | Mobile, Polish |
 |---|---|
@@ -20,12 +22,19 @@ data on your own machine.
 ## What works today
 
 - **People:** create, edit and delete persons (given name, surname, sex, living
-  flag). Deletion asks for confirmation.
-- **Relations:** partner and parent-child links, added and removed from the
-  person editor.
-- **Tree:** SVG layout with drag or arrow-key panning, wheel or `+`/`-` zoom,
-  reset, person search, and validation warnings (ancestry cycles, impossible
-  date sequences, possible duplicates).
+  flag, optional birth and death years). Deletion asks for confirmation.
+- **Relations:** grouped parents, partners and children; link an existing person
+  or create a new relative, then unlink without deleting the person. Duplicate,
+  self, ancestry-cycle and partner/ancestor conflicts are rejected.
+- **Tree workspace:** generation cards connected by SVG edges, a focal person
+  stored in `#/tree/<id>`, click selection, drag-to-link with a keyboard-trapped
+  confirmation dialog, search that dims non-matches without hiding them, and a
+  tray for people outside the current tree.
+- **Tree controls:** drag to pan, wheel or `+`/`-` to zoom, `0` to fit, arrow
+  keys when a card has focus, fit and full-screen buttons, and a mobile opening
+  zoom that keeps cards readable.
+- **Demo data:** replace personal data with the fictional three-generation tree
+  from Settings, after confirmation.
 - **Research board:** apply question templates to the whole tree or one person,
   see progress counts and the task list with open/done/blocked/dropped status.
 - **Sources:** registry with type, quality, repository, reference, URL,
@@ -36,7 +45,8 @@ data on your own machine.
 - **PWA:** installable, works offline after the first visit, no external
   requests at runtime.
 - **Accessibility and layout:** keyboard-operable tree, visible focus, labelled
-  controls, reduced-motion support, layouts tested from 320 to 1440 px.
+  controls, a focus trap and focus return in the relation dialog, body scroll
+  lock, reduced-motion support, layouts tested from 320 to 1440 px.
 
 ![Research board on desktop](docs/img/research-desktop-en.png)
 
@@ -51,6 +61,8 @@ as finished features:
 - Markdown research export, per-person reports, print styles and privacy-mode
   masking. The modules exist, the UI does not.
 - Attachments, photos, timeline and map views (planned for a later release).
+- Touch pinch-zoom on the tree. Mobile opens at a readable zoom and supports
+  drag-to-pan; the `Fit` button shows the whole chart.
 
 ## Privacy
 
@@ -82,10 +94,10 @@ npm run preview
 ## Checks
 
 ```bash
-npm run verify      # Biome, TypeScript, Vitest (38 tests), production build
+npm run verify      # Biome, TypeScript, Vitest (63 tests), production build
 npm run probe       # PWA: online boot, service worker, offline boot
 npm run probe:pages # dist served under /yggdrasil-ft/: manifest, icons, SW scope, offline
-npm run probe:ui    # 48 responsive checks at 320-1440 px, EN + PL; writes docs/img
+npm run probe:ui    # 58 checks: responsive routes at 320-1440 px, EN + PL, tree features; writes docs/img
 ```
 
 The probes drive headless Chromium over CDP and have no extra dependencies. Set
@@ -99,7 +111,8 @@ deploys `dist` to GitHub Pages.
 src/model      document types and schema
 src/store      localStorage store, migrations, seed
 src/io         JSON and GEDCOM 5.5.1 import/export
-src/components tree canvas, forms, research, sources, data IO
+src/components tree canvas, relation dialog, forms, research, sources, data IO
+src/lib        dates, relation rules, tree layout, validation
 src/i18n       English and Polish dictionaries
 scripts        headless Chromium probes (PWA, Pages mount, responsive)
 ```

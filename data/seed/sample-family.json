@@ -14,7 +14,11 @@
 		{
 			"id": "p1",
 			"names": [
-				{ "forename": "Astrith", "surname": "Vindottir", "type": "birth" },
+				{
+					"forename": "Astrith",
+					"surname": "Vindottir",
+					"type": "birth"
+				},
 				{
 					"forename": "Astrith",
 					"surname": "Halgrimsdottir",
@@ -27,15 +31,26 @@
 				{
 					"id": "e1",
 					"type": "birth",
-					"date": { "year": 1848, "qualifier": "about" },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1848,
+						"qualifier": "about"
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": ["s1"]
 				},
 				{
 					"id": "e2",
 					"type": "death",
-					"date": { "year": 1912 },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1912
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": []
 				}
 			],
@@ -50,7 +65,11 @@
 		{
 			"id": "p2",
 			"names": [
-				{ "forename": "Halgrim", "surname": "Eiriksson", "type": "birth" }
+				{
+					"forename": "Halgrim",
+					"surname": "Eiriksson",
+					"type": "birth"
+				}
 			],
 			"sex": "male",
 			"living": false,
@@ -58,15 +77,26 @@
 				{
 					"id": "e3",
 					"type": "birth",
-					"date": { "year": 1844 },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1844
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": ["s1"]
 				},
 				{
 					"id": "e4",
 					"type": "death",
-					"date": { "year": 1901, "qualifier": "before" },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1901,
+						"qualifier": "before"
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": []
 				}
 			],
@@ -81,7 +111,11 @@
 		{
 			"id": "p3",
 			"names": [
-				{ "forename": "Sigrun", "surname": "Halgrimsdottir", "type": "birth" }
+				{
+					"forename": "Sigrun",
+					"surname": "Halgrimsdottir",
+					"type": "birth"
+				}
 			],
 			"sex": "female",
 			"living": false,
@@ -89,8 +123,13 @@
 				{
 					"id": "e5",
 					"type": "birth",
-					"date": { "year": 1874 },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1874
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": ["s1"]
 				}
 			],
@@ -104,7 +143,11 @@
 		{
 			"id": "p4",
 			"names": [
-				{ "forename": "Eirik", "surname": "Halgrisson", "type": "birth" }
+				{
+					"forename": "Eirik",
+					"surname": "Halgrisson",
+					"type": "birth"
+				}
 			],
 			"sex": "male",
 			"living": false,
@@ -112,20 +155,210 @@
 				{
 					"id": "e6",
 					"type": "birth",
-					"date": { "year": 1877 },
-					"place": { "name": "Fictionalvik", "country": "Fictland" },
+					"date": {
+						"year": 1877
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
 					"sourceIds": ["s1"]
 				},
 				{
 					"id": "e7",
 					"type": "migration",
-					"date": { "year": 1899 },
-					"place": { "name": "Fictionalport", "country": "Fictland" },
+					"date": {
+						"year": 1899
+					},
+					"place": {
+						"name": "Fictionalport",
+						"country": "Fictland"
+					},
 					"sourceIds": []
 				}
 			],
 			"notes": "Demo person; the migration is the open research lead of this sample.",
 			"tags": ["demo", "to-verify"],
+			"confidence": "unverified",
+			"researchStatus": "open",
+			"createdAt": "2026-10-19T00:00:00.000Z",
+			"updatedAt": "2026-10-19T00:00:00.000Z"
+		},
+		{
+			"id": "p5",
+			"names": [
+				{
+					"forename": "Bjorn",
+					"surname": "Halgrisson",
+					"type": "birth"
+				}
+			],
+			"sex": "male",
+			"living": false,
+			"events": [
+				{
+					"id": "e-p5-b",
+					"type": "birth",
+					"date": {
+						"year": 1872
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": ["s1"]
+				},
+				{
+					"id": "e-p5-d",
+					"type": "death",
+					"date": {
+						"year": 1944
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": []
+				}
+			],
+			"occupations": ["fisherman"],
+			"notes": "Demo person; partner of Sigrun and father of Astrid.",
+			"tags": ["demo"],
+			"confidence": "unverified",
+			"researchStatus": "open",
+			"createdAt": "2026-10-19T00:00:00.000Z",
+			"updatedAt": "2026-10-19T00:00:00.000Z"
+		},
+		{
+			"id": "p6",
+			"names": [
+				{
+					"forename": "Liv",
+					"surname": "Eiriksdottir",
+					"type": "birth"
+				}
+			],
+			"sex": "female",
+			"living": false,
+			"events": [
+				{
+					"id": "e-p6-b",
+					"type": "birth",
+					"date": {
+						"year": 1879
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": ["s1"]
+				},
+				{
+					"id": "e-p6-d",
+					"type": "death",
+					"date": {
+						"year": 1961
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": []
+				}
+			],
+			"occupations": ["midwife"],
+			"notes": "Demo person; partner of Eirik and mother of Leif.",
+			"tags": ["demo"],
+			"confidence": "verified",
+			"researchStatus": "partial",
+			"createdAt": "2026-10-19T00:00:00.000Z",
+			"updatedAt": "2026-10-19T00:00:00.000Z"
+		},
+		{
+			"id": "p7",
+			"names": [
+				{
+					"forename": "Astrid",
+					"surname": "Bjornsdottir",
+					"type": "birth"
+				}
+			],
+			"sex": "female",
+			"living": false,
+			"events": [
+				{
+					"id": "e-p7-b",
+					"type": "birth",
+					"date": {
+						"year": 1898
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": ["s1"]
+				},
+				{
+					"id": "e-p7-d",
+					"type": "death",
+					"date": {
+						"year": 1980
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": []
+				}
+			],
+			"occupations": ["teacher"],
+			"notes": "Demo person; the youngest generation on Sigrun's side.",
+			"tags": ["demo"],
+			"confidence": "unverified",
+			"researchStatus": "open",
+			"createdAt": "2026-10-19T00:00:00.000Z",
+			"updatedAt": "2026-10-19T00:00:00.000Z"
+		},
+		{
+			"id": "p8",
+			"names": [
+				{
+					"forename": "Leif",
+					"surname": "Eiriksson",
+					"type": "birth"
+				}
+			],
+			"sex": "male",
+			"living": false,
+			"events": [
+				{
+					"id": "e-p8-b",
+					"type": "birth",
+					"date": {
+						"year": 1902
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": ["s1"]
+				},
+				{
+					"id": "e-p8-d",
+					"type": "death",
+					"date": {
+						"year": 1975
+					},
+					"place": {
+						"name": "Fictionalvik",
+						"country": "Fictland"
+					},
+					"sourceIds": []
+				}
+			],
+			"occupations": ["sailor"],
+			"notes": "Demo person; the youngest generation on Eirik's side.",
+			"tags": ["demo"],
 			"confidence": "unverified",
 			"researchStatus": "open",
 			"createdAt": "2026-10-19T00:00:00.000Z",
@@ -141,12 +374,59 @@
 			"start": {
 				"id": "e8",
 				"type": "marriage",
-				"date": { "year": 1870, "qualifier": "between", "yearTo": 1873 },
-				"place": { "name": "Fictionalvik", "country": "Fictland" },
+				"date": {
+					"year": 1870,
+					"qualifier": "between",
+					"yearTo": 1873
+				},
+				"place": {
+					"name": "Fictionalvik",
+					"country": "Fictland"
+				},
 				"sourceIds": ["s2"]
 			},
 			"sourceIds": ["s2"],
 			"note": "Demo union; marriage year not yet pinned down."
+		},
+		{
+			"id": "f2",
+			"partnerIds": ["p3", "p5"],
+			"childIds": ["p7"],
+			"type": "marriage",
+			"start": {
+				"id": "e-f2-s",
+				"type": "marriage",
+				"date": {
+					"year": 1896
+				},
+				"place": {
+					"name": "Fictionalvik",
+					"country": "Fictland"
+				},
+				"sourceIds": ["s2"]
+			},
+			"sourceIds": ["s2"],
+			"note": "Demo union."
+		},
+		{
+			"id": "f3",
+			"partnerIds": ["p4", "p6"],
+			"childIds": ["p8"],
+			"type": "marriage",
+			"start": {
+				"id": "e-f3-s",
+				"type": "marriage",
+				"date": {
+					"year": 1898
+				},
+				"place": {
+					"name": "Fictionalport",
+					"country": "Fictland"
+				},
+				"sourceIds": ["s2"]
+			},
+			"sourceIds": ["s2"],
+			"note": "Demo union."
 		}
 	],
 	"sources": [

@@ -3,7 +3,8 @@
 > Repository: **`yggdrasil-ft`** (planned: `github.com/rur1k1d/yggdrasil-ft`, MIT).
 > Local folder: `projects/Yggdrasil_Project/`.
 > Files/docs/comments **English**; app UI **PL + EN**.
-> Status: **v0.1.0 released 2026-10-23.** Live: https://rur1k1d.github.io/yggdrasil-ft/
+> Status: **v0.2.0 source, 2026-10-23.** The published v0.1.0 demo remains at
+> https://rur1k1d.github.io/yggdrasil-ft/ until the next release is approved.
 > Reports, print, Markdown export and privacy-mode masking exist as modules but
 > are not exposed in the UI yet; see `README.md` for the honest feature list.
 
@@ -157,6 +158,9 @@ archive query letters. Each template: title, target scope, ordered questions,
       validation warnings, fictional demo tree browsable.
       *Verify:* create/edit/persist across reload; cycle + impossible-date warnings;
       a11y focus order; 0 console errors; Vitest model invariants.
+      **v0.2.0 overhaul:** life dates, grouped relation editor, generation-card
+      layout with SVG connectors, focal person via `#/tree/<id>`, drag-to-link
+      dialog, unlinked tray, fit/full-screen, 8-person demo and 63 tests.
 - [x] **P3 — Research TODO board.** Templates instantiator, progress stats, task
       list. *(Partial in v0.1.0: task editing and markdown export UI pending.)*
       *Verify:* template → tasks; markdown matches a fixed fixture; Vitest.

@@ -114,13 +114,21 @@ describe("seed", () => {
 	it("creates the fictional demo document with consistent counts", () => {
 		const seed = createSeedDoc();
 		expect(seed.schema).toBe(1);
-		expect(seed.persons).toHaveLength(4);
-		expect(seed.families).toHaveLength(1);
+		expect(seed.persons).toHaveLength(8);
+		expect(seed.families).toHaveLength(3);
 		expect(seed.sources).toHaveLength(2);
 		expect(seed.tasks).toHaveLength(3);
 		expect(seed.notes).toHaveLength(1);
 		expect(seed.settings.locale).toBe("en");
 		expect(seed.persons.every((person) => person.id.length > 0)).toBe(true);
+		expect(seed.persons.every((person) => Array.isArray(person.tags))).toBe(
+			true,
+		);
+		expect(
+			seed.persons.every((person) =>
+				person.events.every((event) => Array.isArray(event.sourceIds)),
+			),
+		).toBe(true);
 	});
 });
 
@@ -129,11 +137,11 @@ describe("store", () => {
 		const storage = makeStorage();
 		vi.stubGlobal("localStorage", storage);
 		const loaded = load();
-		expect(loaded.persons).toHaveLength(4);
+		expect(loaded.persons).toHaveLength(8);
 		expect(isPersisted()).toBe(true);
 		const stored = storage.dump()[STORAGE_KEY];
 		expect(stored).toBeDefined();
-		expect(JSON.parse(stored ?? "{}").persons).toHaveLength(4);
+		expect(JSON.parse(stored ?? "{}").persons).toHaveLength(8);
 	});
 
 	it("load returns a stored document when present", () => {
@@ -159,7 +167,7 @@ describe("store", () => {
 	it("falls back to an in-memory seed when no storage exists", () => {
 		vi.stubGlobal("localStorage", undefined);
 		const loaded = load();
-		expect(loaded.persons).toHaveLength(4);
+		expect(loaded.persons).toHaveLength(8);
 		expect(isPersisted()).toBe(false);
 	});
 
