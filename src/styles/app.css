@@ -1456,8 +1456,17 @@ textarea {
 	inset: 0;
 	width: 100vw;
 	height: 100dvh;
-	background: radial-gradient(1200px 800px at 50% 10%, rgba(201, 162, 39, 0.08), transparent),
-		radial-gradient(1400px 900px at 50% 90%, rgba(34, 230, 255, 0.06), transparent),
+	background:
+		radial-gradient(
+			1200px 800px at 50% 10%,
+			rgba(201, 162, 39, 0.08),
+			transparent
+		),
+		radial-gradient(
+			1400px 900px at 50% 90%,
+			rgba(34, 230, 255, 0.06),
+			transparent
+		),
 		radial-gradient(1600px 1000px at 50% 50%, var(--dr-bg-1), var(--dr-bg-0));
 	overflow: hidden;
 	z-index: 0;
@@ -1493,14 +1502,24 @@ textarea {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
-	background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, var(--dr-vignette)) 100%);
+	background: radial-gradient(
+		ellipse at center,
+		transparent 40%,
+		rgba(0, 0, 0, var(--dr-vignette)) 100%
+	);
 }
 
 .dr-grain {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
-	background-image: repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 2px);
+	background-image: repeating-radial-gradient(
+		circle at 0 0,
+		rgba(255, 255, 255, 0.02) 0,
+		rgba(255, 255, 255, 0.02) 1px,
+		transparent 1px,
+		transparent 2px
+	);
 	opacity: var(--dr-grain);
 	mix-blend-mode: soft-light;
 }
@@ -1530,7 +1549,13 @@ textarea {
 	z-index: 100;
 	display: grid;
 	place-items: center;
-	background: radial-gradient(1200px 800px at 50% 10%, rgba(201, 162, 39, 0.08), transparent), #020308;
+	background:
+		radial-gradient(
+			1200px 800px at 50% 10%,
+			rgba(201, 162, 39, 0.08),
+			transparent
+		),
+		#020308;
 }
 
 .intro-splash.is-fading {
