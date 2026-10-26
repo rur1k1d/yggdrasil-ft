@@ -41,7 +41,9 @@ body {
 	color: var(--ink);
 	border: 1px solid var(--accent);
 	border-radius: var(--radius-sm);
+	font: inherit;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 .skip-link:focus {
@@ -97,7 +99,7 @@ body {
 .shell-nav {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-1);
+	gap: var(--space-1) var(--space-2);
 	padding: var(--space-2) var(--space-5);
 	background: var(--surface);
 	border-bottom: 1px solid var(--border);
@@ -1310,6 +1312,28 @@ body {
 	filter: blur(4px);
 }
 
+/* Settings — language */
+.settings-language {
+	margin-top: var(--space-5);
+	max-width: 42rem;
+}
+.settings-language h2 {
+	margin: 0 0 var(--space-3);
+	font-size: var(--text-lg);
+}
+.lang-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: var(--space-3);
+}
+.lang-option[aria-pressed="true"] {
+	border-color: var(--accent);
+	color: var(--accent-bright);
+	background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+	box-shadow: inset 0 -2px 0 var(--accent);
+}
+
 /* Settings — data export / import */
 .settings-io {
 	margin-top: var(--space-5);
@@ -1559,7 +1583,7 @@ textarea {
 }
 
 .intro-splash.is-fading {
-	animation: dr-fade-out 900ms ease forwards;
+	animation: dr-fade-out 600ms ease forwards;
 	pointer-events: none;
 }
 
@@ -1593,6 +1617,12 @@ textarea {
 	letter-spacing: 0.4em;
 	text-transform: uppercase;
 	color: rgba(245, 243, 238, 0.4);
+}
+
+.intro-splash__skip {
+	justify-self: center;
+	margin-top: var(--space-2);
+	padding: var(--space-2) var(--space-5);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -14,6 +14,7 @@ data on your own machine.
 > unlinked-person tray, fit/full-screen controls and a richer fictional demo.
 > The rest of the v0.1.0 workflow remains: research board, source registry,
 > JSON/GEDCOM import and export, English/Polish UI and an installable offline PWA.
+> Every load opens with a five-second DataRain splash that can be skipped.
 
 | Desktop, English | Mobile, Polish |
 |---|---|
@@ -41,7 +42,8 @@ data on your own machine.
   accessed date, transcription and note.
 - **Import/export:** JSON backups and GEDCOM 5.5.1 (documented subset, see
   [docs/gedcom.md](docs/gedcom.md)).
-- **Localization:** English and Polish, with a language switch.
+- **Localization:** English (default) and Polish, with a language switch in the
+  header and in Settings; the choice is remembered in this browser.
 - **PWA:** installable, works offline after the first visit, no external
   requests at runtime.
 - **Accessibility and layout:** keyboard-operable tree, visible focus, labelled
@@ -94,10 +96,10 @@ npm run preview
 ## Checks
 
 ```bash
-npm run verify      # Biome, TypeScript, Vitest (63 tests), production build
+npm run verify      # Biome, TypeScript, Vitest (66 tests), production build
 npm run probe       # PWA: online boot, service worker, offline boot
 npm run probe:pages # dist served under /yggdrasil-ft/: manifest, icons, SW scope, offline
-npm run probe:ui    # 58 checks: responsive routes at 320-1440 px, EN + PL, tree features; writes docs/img
+npm run probe:ui    # 63 checks: intro, language default, responsive routes, tree features; writes docs/img
 ```
 
 The probes drive headless Chromium over CDP and have no extra dependencies. Set

@@ -6,15 +6,33 @@ import { pl } from "./pl";
 export type Locale = "en" | "pl";
 
 const dictionaries: Record<Locale, Dict> = { en, pl };
+const LOCALE_KEY = "yggdrasil_locale_v1";
+const DEFAULT_LOCALE: Locale = "en";
 
-function detect(): Locale {
-	if (typeof navigator === "undefined") {
-		return "en";
-	}
-	return navigator.language.toLowerCase().startsWith("pl") ? "pl" : "en";
+function isLocale(value: string | null): value is Locale {
+	return value === "en" || value === "pl";
 }
 
-export const locale = signal<Locale>(detect());
+function readStoredLocale(): Locale | null {
+	if (typeof localStorage === "undefined") return null;
+	try {
+		const stored = localStorage.getItem(LOCALE_KEY);
+		return isLocale(stored) ? stored : null;
+	} catch {
+		return null;
+	}
+}
+
+function persistLocale(next: Locale): void {
+	if (typeof localStorage === "undefined") return;
+	try {
+		localStorage.setItem(LOCALE_KEY, next);
+	} catch {
+		return;
+	}
+}
+
+export const locale = signal<Locale>(readStoredLocale() ?? DEFAULT_LOCALE);
 
 export function t(key: keyof Dict): string {
 	return dictionaries[locale.value][key];
@@ -37,8 +55,9 @@ export function getLocale(): Locale {
 
 export function setLocale(next: Locale): void {
 	locale.value = next;
+	persistLocale(next);
 }
 
 export function toggleLocale(): void {
-	locale.value = locale.value === "en" ? "pl" : "en";
+	setLocale(locale.value === "en" ? "pl" : "en");
 }

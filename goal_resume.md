@@ -168,3 +168,29 @@ Rules: files EN, UI PL+EN, local-only, never publish our domain/site/email, comm
 - 2026-10-23 — P6.9 evidence: `.github/workflows/ci.yml` (verify + probes) and `pages.yml` (verify + deploy); `scripts/mount-probe.mjs` + `npm run probe:pages` PASS; verify 0, 38/38. Commits de71131, 119d9cc.
 - 2026-10-23 — P6.10 evidence: README rewritten for v0.1.0 (honest feature list, "Not in the UI yet", privacy/backup, quick start, checks, template use, naming note, Pages demo link, 3 screenshots); plan/tracker status corrected (P3/P4 partial notes, Q3 resolved); topics + template flag queued for P6.11.
 - 2026-10-23 — P6.11 evidence: `gh repo create --public --source=. --remote=origin --push` (16 commits, main); Pages `build_type=workflow`; description + homepage + 12 topics; `is_template=true`. CI run 39985872952 success, Pages run 39985872955 success. Live probe at https://rur1k1d.github.io/yggdrasil-ft/: boot, SW control, manifest errors [], installability errors [], icons 200, EN + PL (nav Drzewo/Badania/Źródła/Ustawienia), offline reload boot, 0 console errors, 0 exceptions, 0 third-party requests. Release v0.1.0 (this commit included): https://github.com/rur1k1d/yggdrasil-ft/releases/tag/v0.1.0.
+
+## Pause note 2026-10-25
+
+Goal state backed up to `goal_state_20261025.json`. Cardgame work started in
+`projects/Cardgame_Project` with a separate goal state file. The v0.2.0 goal
+remains active with items 4-5 unchecked; resume from this file when returning.
+
+## Resume 2026-10-26
+
+- Shell regressions fixed. Intro (DataRain splash) now shows on every page load
+  for 5000 ms plus a 600 ms fade (150 ms with reduced motion); Enter, Space or
+  the Continue button skip it. No `localStorage` seen-flag anymore.
+- Language: English is the default regardless of browser locale. The choice is
+  persisted as `yggdrasil_locale_v1` and can be changed in the header or in
+  Settings (`LanguageSection`). Shell markup restored from `6c0a4bf^` (skip link,
+  nav labels via i18n, `aria-current`, footer, wide main for the tree).
+- Nav spacing restored (`gap: var(--space-1) var(--space-2)`), lang switch and
+  language options styled, dead `.app-*` markup removed.
+- Probes updated for the always-on splash (`dismissIntro`) and extended:
+  intro visible, auto-dismiss after ~5 s, EN default under a Polish browser
+  locale, language persistence after reload.
+- Gates: `npm run verify` PASS (Biome 0, tsc 0, Vitest 66/66, build OK);
+  `npm run probe` PASS; `npm run probe:pages` PASS; `npm run probe:ui` PASS
+  (62 checks: 48 routes + 14 features), screenshots regenerated in `docs/img/`.
+- Cleanup: removed unused `JSX` import and unused catch binding in DataRain,
+  reverted the unused Playwright dependency, ignored `goal_state_*.json`.

@@ -220,7 +220,13 @@ export const en = {
 		"GEDCOM 7 is not supported — this app reads and writes GEDCOM 5.5.1.",
 	"settings.io.err.json": "This file is not a valid Yggdrasil JSON backup.",
 	"settings.io.err.read": "The selected file could not be read.",
-	"app.introHint": "Press Enter",
+	"app.introHint": "Press Enter or continue",
+	"app.introSkip": "Continue",
+	"language.title": "Language",
+	"language.hint":
+		"English is the default. Your choice is saved in this browser only.",
+	"language.en": "English",
+	"language.pl": "Polski",
 };
 
 export type Dict = typeof en;

@@ -1,68 +1,116 @@
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { IntroSplash } from "./components/intro/IntroSplash";
 import { ResearchBoard } from "./components/research/ResearchBoard";
 import { DataIO } from "./components/settings/DataIO";
+import { LanguageSection } from "./components/settings/LanguageSection";
 import { SourceRegistry } from "./components/sources/SourceRegistry";
-import { route } from "./router";
-import { load } from "./store/store";
+import type { Dict } from "./i18n/en";
+import { locale, t, toggleLocale } from "./i18n/t";
+import { type Route, type RouteName, route } from "./router";
 import { TreeView } from "./views/tree/TreeView";
-import "./styles/app.css";
 
-const INTRO_KEY = "yggdrasil_intro_seen_v1";
+const NAV: ReadonlyArray<{ href: string; name: RouteName; label: keyof Dict }> =
+	[
+		{ href: "#/", name: "tree", label: "nav.tree" },
+		{ href: "#/research", name: "research", label: "nav.research" },
+		{ href: "#/sources", name: "sources", label: "nav.sources" },
+		{ href: "#/settings", name: "settings", label: "nav.settings" },
+	];
+
+function renderView(current: Route) {
+	switch (current.name) {
+		case "tree":
+			return <TreeView />;
+		case "research":
+			return <ResearchBoard />;
+		case "sources":
+			return <SourceRegistry />;
+		case "settings":
+			return (
+				<>
+					<h1 class="view-title">{t("views.settings.title")}</h1>
+					<p class="view-note">{t("views.settings.note")}</p>
+					<LanguageSection />
+					<DataIO />
+				</>
+			);
+		default:
+			return (
+				<>
+					<h1 class="view-title">{t("views.notFound.title")}</h1>
+					<p class="view-note">{t("views.notFound.note")}</p>
+					<a class="view-back" href="#/">
+						{t("views.notFound.back")}
+					</a>
+				</>
+			);
+	}
+}
 
 export function App() {
-	const r = route.value;
-	const [showIntro, setShowIntro] = useState(() => {
-		if (typeof localStorage === "undefined") return true;
-		try {
-			return localStorage.getItem(INTRO_KEY) !== "1";
-		} catch {
-			return true;
-		}
-	});
+	const current = route.value;
+	const [showIntro, setShowIntro] = useState(true);
+	const langLabel = locale.value === "en" ? "PL" : "EN";
+	const mainRef = useRef<HTMLElement>(null);
+	const previousRoute = useRef(current.name);
+
+	const handleEnter = useCallback(() => setShowIntro(false), []);
 
 	useEffect(() => {
-		load();
-	}, []);
-
-	const handleEnter = () => {
-		try {
-			localStorage.setItem(INTRO_KEY, "1");
-		} catch {
-			// ignore
+		if (previousRoute.current !== current.name) {
+			previousRoute.current = current.name;
+			mainRef.current?.focus();
 		}
-		setShowIntro(false);
-	};
+	}, [current.name]);
 
 	if (showIntro) {
 		return <IntroSplash onEnter={handleEnter} />;
 	}
 
 	return (
-		<div class="app">
-			<header class="app-header">
-				<h1>Yggdrasil-ft</h1>
-				<nav class="app-nav">
-					<a href="#/tree" class={r.name === "tree" ? "active" : ""}>
-						Drzewo
-					</a>
-					<a href="#/research" class={r.name === "research" ? "active" : ""}>
-						Badania
-					</a>
-					<a href="#/sources" class={r.name === "sources" ? "active" : ""}>
-						Źródła
-					</a>
-					<a href="#/settings" class={r.name === "settings" ? "active" : ""}>
-						Ustawienia
-					</a>
-				</nav>
+		<>
+			<button
+				type="button"
+				class="skip-link"
+				onClick={() => mainRef.current?.focus()}
+			>
+				{t("shell.skipToContent")}
+			</button>
+			<header class="shell-header">
+				<span class="brand">
+					<span class="brand__mark">{t("app.name")}</span>
+				</span>
+				<button
+					type="button"
+					class="lang-switch"
+					onClick={toggleLocale}
+					aria-label={t("shell.langSwitch")}
+				>
+					{langLabel}
+				</button>
 			</header>
-			<main class="main">
-				{r.name === "tree" && <TreeView />}
-				{r.name === "research" && <ResearchBoard />}
-				{r.name === "sources" && <SourceRegistry />}
-				{r.name === "settings" && <DataIO />}
+			<nav class="shell-nav" aria-label={t("shell.mainNav")}>
+				{NAV.map((item) => (
+					<a
+						href={item.href}
+						aria-current={current.name === item.name ? "page" : undefined}
+					>
+						{t(item.label)}
+					</a>
+				))}
+			</nav>
+			<main
+				id="main"
+				class={`shell-main ${current.name === "tree" ? "shell-main--wide" : ""}`}
+				tabIndex={-1}
+				ref={mainRef}
+			>
+				{renderView(current)}
 			</main>
-		</div>
+			<footer class="shell-footer">
+				<span>{t("app.privacyNote")}</span>
+				<span>{t("app.dataNote")}</span>
+			</footer>
+		</>
 	);
 }

@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-import type { JSX } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 
 export interface DataRainPalette {
@@ -849,7 +848,7 @@ export default function DataRain(props: DataRainProps) {
 		const ro = new ResizeObserver(() => resize());
 		try {
 			ro.observe(root as any);
-		} catch (e) {}
+		} catch (_e) {}
 
 		apiRef.current = {
 			refresh: () => {

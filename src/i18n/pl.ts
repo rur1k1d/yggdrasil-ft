@@ -219,7 +219,13 @@ export const pl = {
 		"GEDCOM 7 nie jest obsługiwany — aplikacja zapisuje i czyta GEDCOM 5.5.1.",
 	"settings.io.err.json": "To nie jest poprawna kopia zapasowa JSON Yggdrasil.",
 	"settings.io.err.read": "Nie udało się odczytać wybranego pliku.",
-	"app.introHint": "Naciśnij Enter",
+	"app.introHint": "Naciśnij Enter lub kontynuuj",
+	"app.introSkip": "Kontynuuj",
+	"language.title": "Język",
+	"language.hint":
+		"Angielski jest domyślny. Wybór jest zapisywany tylko w tej przeglądarce.",
+	"language.en": "English",
+	"language.pl": "Polski",
 };
 
 export type Dict = typeof pl;

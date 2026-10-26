@@ -67,3 +67,6 @@ desktop.ini
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Local goal backups (opencode /goal state files)
+goal_state_*.json

@@ -49,6 +49,14 @@ const failures = [];
 const consoleErrors = [];
 const exceptions = [];
 const written = [];
+const features = [];
+
+function checkFeature(name, pass, detail) {
+	features.push({ name, pass, detail });
+	if (!pass) {
+		failures.push({ feature: name, reason: detail ?? "check failed" });
+	}
+}
 
 function spawnChild(command, args) {
 	const child = spawn(command, args, {
@@ -192,6 +200,26 @@ async function setLocale(client, locale) {
 	}
 }
 
+async function dismissIntro(client) {
+	const seen = await poll(
+		client,
+		"document.querySelector('.intro-splash__skip') !== null",
+		5_000,
+	);
+	if (seen) {
+		await evaluate(
+			client,
+			"document.querySelector('.intro-splash__skip')?.click()",
+		);
+	}
+	await poll(
+		client,
+		"document.querySelectorAll('.shell-nav a').length === 4",
+		10_000,
+	);
+	return seen;
+}
+
 async function main() {
 	await mkdir(SHOT_DIR, { recursive: true });
 	const profile = await mkdtemp(join(tmpdir(), "ygg-ui-probe-"));
@@ -244,16 +272,60 @@ async function main() {
 		await client.send("Runtime.enable");
 		await client.send("Log.enable");
 
+		await client
+			.send("Emulation.setLocaleOverride", { locale: "pl-PL" })
+			.catch(() => {});
 		await client.send("Page.navigate", { url: APP_URL });
+		const introVisible = await poll(
+			client,
+			"document.querySelector('.intro-splash__skip') !== null",
+			5_000,
+		);
+		const introStart = Date.now();
+		const introDismissed = await poll(
+			client,
+			"document.querySelector('.intro-splash__skip') === null",
+			9_000,
+		);
+		const introMs = Date.now() - introStart;
+		checkFeature("intro shows on every load", introVisible);
+		checkFeature(
+			"intro auto-dismisses after 5 seconds",
+			introDismissed && introMs >= 4_500 && introMs <= 7_500,
+			`${introMs} ms`,
+		);
 		if (
 			!(await poll(
 				client,
 				"document.querySelectorAll('.shell-nav a').length === 4",
-				15_000,
+				10_000,
 			))
 		) {
 			throw new Error("app did not boot");
 		}
+		await sleep(200);
+
+		const defaultLang = await evaluate(client, "document.documentElement.lang");
+		checkFeature(
+			"default language is English despite a Polish browser locale",
+			defaultLang === "en",
+			defaultLang,
+		);
+		await evaluate(client, "document.querySelector('.lang-switch')?.click()");
+		await poll(client, "document.documentElement.lang === 'pl'", 3_000);
+		await client.send("Page.reload", { ignoreCache: false });
+		checkFeature("intro shows again after reload", await dismissIntro(client));
+		const persistedLang = await evaluate(
+			client,
+			"document.documentElement.lang",
+		);
+		checkFeature(
+			"language switch persists after reload",
+			persistedLang === "pl",
+			persistedLang,
+		);
+		await evaluate(client, "document.querySelector('.lang-switch')?.click()");
+		await poll(client, "document.documentElement.lang === 'en'", 3_000);
 
 		let checks = 0;
 		for (const locale of LOCALES) {
@@ -266,11 +338,7 @@ async function main() {
 					mobile: false,
 				});
 				await client.send("Page.reload", { ignoreCache: false });
-				await poll(
-					client,
-					"document.querySelectorAll('.shell-nav a').length === 4",
-					10_000,
-				);
+				await dismissIntro(client);
 				await setLocale(client, locale);
 
 				for (const route of ROUTES) {
@@ -322,14 +390,6 @@ async function main() {
 			}
 		}
 
-		const features = [];
-		const checkFeature = (name, pass, detail) => {
-			features.push({ name, pass, detail });
-			if (!pass) {
-				failures.push({ feature: name, reason: detail ?? "check failed" });
-			}
-		};
-
 		await client.send("Emulation.setDeviceMetricsOverride", {
 			width: 1440,
 			height: 900,
@@ -338,6 +398,7 @@ async function main() {
 		});
 		await evaluate(client, "location.hash = '#/'");
 		await client.send("Page.reload", { ignoreCache: false });
+		await dismissIntro(client);
 		await poll(
 			client,
 			"document.querySelectorAll('.tree-card').length === 8",
@@ -570,6 +631,7 @@ async function main() {
 			mobile: false,
 		});
 		await client.send("Page.reload", { ignoreCache: false });
+		await dismissIntro(client);
 		await poll(
 			client,
 			"document.querySelectorAll('.tree-card').length === 8",

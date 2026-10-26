@@ -210,6 +210,21 @@ const BOOT_EXPRESSION =
 	"document.querySelector('#app nav') !== null && document.querySelectorAll('#app nav a').length === 4 && document.querySelector('#app main') !== null";
 const SW_EXPRESSION = "navigator.serviceWorker.controller !== null";
 
+async function dismissIntro(client) {
+	const seen = await poll(
+		"document.querySelector('.intro-splash__skip') !== null",
+		client,
+		3_000,
+	);
+	if (seen) {
+		await evaluate(
+			client,
+			"document.querySelector('.intro-splash__skip')?.click()",
+		);
+		await sleep(200);
+	}
+}
+
 async function attachNewTargets() {
 	let targets = [];
 	try {
@@ -295,6 +310,7 @@ async function main() {
 			throw new Error(`navigation failed: ${navResult.errorText}`);
 		}
 
+		await dismissIntro(client);
 		const onlineBoot = await poll(BOOT_EXPRESSION, client, 15_000);
 		const swControlled = await poll(SW_EXPRESSION, client, 15_000);
 		await attachNewTargets();
@@ -309,6 +325,7 @@ async function main() {
 		if (reloadResult?.errorText) {
 			throw new Error(`reload failed: ${reloadResult.errorText}`);
 		}
+		await dismissIntro(client);
 		const offlineBoot = await poll(BOOT_EXPRESSION, client, 15_000);
 		const offlineSwControlled = await poll(SW_EXPRESSION, client, 5_000);
 		await attachNewTargets();
